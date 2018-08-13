@@ -1,15 +1,11 @@
-Redstone Repository Repository
+Redstone Repository Revolved Repository
 ==============
 
-![](https://github.com/thundR/RedstoneRepository/raw/master/src/main/resources/assets/redstonerepository/textures/logo.png "Redstone Repository")
+![](https://github.com/CrankySupertoon01/RedstoneRepository/raw/master/src/main/resources/assets/redstonerepository/textures/logo.png "Redstone Repository")
 
-[Jenkins](https://ci.thundr.pw/)
+[Curse](https://minecraft.curseforge.com/projects/redstone-repository-revolved)
 
-[Twitter](https://twitter.com/rdnuht)
-
-[Curse](https://minecraft.curseforge.com/projects/redstone-repository)
-
-This mod was an addon for Redstone Arsenal by TeamCoFH, and will eventally be a home to content that enhances many aspects of the CoFH library of mods. Original mod written by TehNut and Tombenpotter for MC1.6/1.7. This is a rewrite for 1.12+ by thundR. 
+Redstone Repository Revolved is an addon to Redstone Aresnal which adds tools and weaponry which utilize Redstone Flux. Original mod written by TehNut and Tombenpotter for MC1.6/1.7. This is a rewrite for 1.12+ by thundR, and continued by the community.
 
 ## Dev setup
 
