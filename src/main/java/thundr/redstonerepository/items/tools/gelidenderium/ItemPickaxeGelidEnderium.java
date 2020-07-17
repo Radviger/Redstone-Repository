@@ -5,7 +5,6 @@ import cofh.core.util.RayTracer;
 import cofh.core.util.helpers.StringHelper;
 import cofh.redstonearsenal.item.tool.ItemPickaxeFlux;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +20,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -90,11 +88,10 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
     @Override
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("unchecked")
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bind"));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.addInformation(stack, world, tooltip, flagIn);
         if (stack.hasTagCompound()) {
-
             //coordX, coordY, coordZ, dimID, side
             int[] values = new int[5];
             boolean isBound = false;
@@ -143,7 +140,6 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
             }
             return false;
         }
-        world.playEvent(2001, pos, Block.getStateId(state));
 
         float refStrength = state.getPlayerRelativeBlockHardness(player, world, pos);
         if (refStrength != 0.0F) {
@@ -158,7 +154,6 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
                 BlockPos adjPos;
                 IBlockState adjState;
                 float strength;
-
 
                 int x = pos.getX();
                 int y = pos.getY();
@@ -216,7 +211,6 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
 
     @Override
     public ImmutableList<BlockPos> getAOEBlocks(ItemStack stack, BlockPos pos, EntityPlayer player) {
-
         ArrayList<BlockPos> area = new ArrayList<>();
         World world = player.getEntityWorld();
 

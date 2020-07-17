@@ -2,12 +2,14 @@ package thundr.redstonerepository.util;
 
 import cofh.core.util.helpers.BaublesHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -42,7 +44,6 @@ public class ToolEventHandler {
     public void onHarvestDrops(BlockEvent.HarvestDropsEvent event) {
         World world = event.getWorld();
         if (!world.isRemote) {
-
             if (event.getHarvester() != null && !event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).isEmpty() &&
                 event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemPickaxeGelidEnderium) {
 
@@ -50,7 +51,6 @@ public class ToolEventHandler {
                 ItemPickaxeGelidEnderium pickaxe = (ItemPickaxeGelidEnderium) event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).getItem();
 
                 if (isEmpowered(stack)) {
-
                     if (stack.getTagCompound() == null) {
                         stack.setTagCompound(new NBTTagCompound());
                     }
@@ -66,7 +66,6 @@ public class ToolEventHandler {
                     if (isBound) {
                         World boundWorld = DimensionManager.getWorld(dimID);
                         if (event.getWorld().getBlockState(event.getPos()) != boundWorld.getBlockState(new BlockPos(coordX, coordY, coordZ))) {
-
                             TileEntity bound = boundWorld.getTileEntity(new BlockPos(coordX, coordY, coordZ));
                             IItemHandler inventory;
                             EnumFacing dir = EnumFacing.getFront(side);
@@ -79,11 +78,14 @@ public class ToolEventHandler {
 
                             for (int drop = 0; drop < event.getDrops().size(); drop++) {
                                 ItemStack returned = ItemHandlerHelper.insertItemStacked(inventory, event.getDrops().get(drop), false);
+
                                 //drain energy depending on how far away you are from the inventory
                                 int temp = drainEnergyByDistance(event.getPos(), new BlockPos(coordX, coordY, coordZ),
                                     !(dimID == event.getHarvester().dimension));
                                 pickaxe.extractEnergy(stack, temp, false);
                                 if (returned.isEmpty()) {
+                                    world.playSound(null, event.getPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1F, 0.8F + world.rand.nextFloat() * 0.2F);
+                                    world.playSound(null, bound.getPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1F, 0.8F + world.rand.nextFloat() * 0.2F);
                                     event.setDropChance(0);
                                 } else {
                                     return;
