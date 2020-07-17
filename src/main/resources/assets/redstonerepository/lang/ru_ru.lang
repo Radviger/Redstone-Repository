@@ -32,18 +32,18 @@ info.redstonerepository.ring.mining.title=Скорость добычи в по�
 info.redstonerepository.ring.effect.disabled=Перегрелось! Остынет через: (%s) сек.
 
 #Tools
-item.redstonerepository.tool.enderium.gelid.axe.name=Наполненный флаксом леденящий топор
-item.redstonerepository.tool.enderium.gelid.battlewrench.name=Наполненный флаксом леденящий боевой гаечный ключ
-item.redstonerepository.tool.enderium.gelid.pickaxe.name=Наполненная флаксом леденящая кирка
-item.redstonerepository.tool.enderium.gelid.shovel.name=Наполненная флаксом леденящая лопата
-item.redstonerepository.tool.enderium.gelid.sickle.name=Наполненный флаксом леденящий серп
-item.redstonerepository.tool.enderium.gelid.sword.name=Наполненный флаксом леденящий меч
+item.redstonerepository.tool.enderium.gelid.axe.name=Флаксовый леденящий топор
+item.redstonerepository.tool.enderium.gelid.battlewrench.name=Флаксовый леденящий боевой гаечный ключ
+item.redstonerepository.tool.enderium.gelid.pickaxe.name=Флаксовая леденящая кирка
+item.redstonerepository.tool.enderium.gelid.shovel.name=Флаксовая леденящая лопата
+item.redstonerepository.tool.enderium.gelid.sickle.name=Флаксовый леденящий серп
+item.redstonerepository.tool.enderium.gelid.sword.name=Флаксовый леденящий меч
 
 #Armor
-item.redstonerepository.armor.enderium.gelid.helm.name=Наполненный флаксом леденящий шлем
-item.redstonerepository.armor.enderium.gelid.chestplate.name=Наполненный флаксом леденящяя кираса
-item.redstonerepository.armor.enderium.gelid.leggings.name=Наполненные флаксом леденящие поножи
-item.redstonerepository.armor.enderium.gelid.boots.name=Наполненные флаксом леденящие ботинки
+item.redstonerepository.armor.enderium.gelid.helm.name=Флаксовый леденящий шлем
+item.redstonerepository.armor.enderium.gelid.chestplate.name=Флаксовая леденящяя кираса
+item.redstonerepository.armor.enderium.gelid.leggings.name=Флаксовые леденящие поножи
+item.redstonerepository.armor.enderium.gelid.boots.name=Флаксовые леденящие ботинки
 
 #General Tooltips
 info.redstonerepository.tooltip.getenergy=Заряд: %d / %d RF
