@@ -5,8 +5,11 @@ import cofh.core.gui.element.ElementBase;
 import cofh.core.util.helpers.MathHelper;
 import cofh.core.util.helpers.RenderHelper;
 import cofh.core.util.helpers.StringHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import thundr.redstonerepository.api.IHungerStorageItem;
 
 import java.util.List;
@@ -47,12 +50,12 @@ public class ElementHungerPoints extends ElementBase {
 
 	@Override
 	public void addTooltip(List<String> list) {
-		list.add(StringHelper.formatNumber(storage.getHungerPoints(stack)) + " / " +
-				StringHelper.formatNumber(storage.getMaxHungerPoints(stack)) + " Hunger Points");
+		int stored = storage.getHungerPoints(stack);
+		int max = storage.getMaxHungerPoints(stack);
+		list.add(I18n.format("info.redstonerepository.tooltip.hungerPoints", stored, max));
 	}
 
 	protected int getScaled() {
-
 		if (storage.getMaxHungerPoints(stack) <= 0) {
 			return sizeY;
 		}
