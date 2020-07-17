@@ -66,10 +66,6 @@ tile.redstonerepository.solar.resonant.name=太阳能板（谐振）
 info.redstonerepository.tooltip.getenergy=充能：%d / %d RF
 info.redstonerepository.tooltip.peruse=%d RF/次使用
 info.redstonerepository.tooltip.perdamage=%d RF/次伤害
-info.redstonerepository.tooltip.extinguish=按下 %s 禁用充能
-info.redstonerepository.tooltip.empower=按下 %s 启用充能
-info.redstonerepository.tooltip.damage=+%d 攻击伤害
-info.redstonerepository.tooltip.damage.flux=+%d 通量伤害
 info.redstonerepository.tooltip.durability=耐久
 info.redstonerepository.tooltip.bound=绑定方块：
 info.redstonerepository.tooltip.side=Insert Side:
@@ -105,8 +101,8 @@ info.redstonerepository.tooltip.armor.powersuit.potion.nullification=免疫药�
 #Chat Messages
 info.redstonerepository.chat.table.tinker.instruct=右击powersuit以进行升级。
 info.redstonerepository.chat.armor.powersuit.active=激活：
-info.redstonerepository.chat.boundto.txt=绑定至：
-info.redstonerepository.chat.unbound.txt=物品未绑定！
+info.redstonerepository.tooltip.linked=建立连结
+info.redstonerepository.tooltip.unlinked=未连结
 
 #Keybinding
 key.redstonerepository.bind.powersuitActivate=启用Powersuit

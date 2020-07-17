@@ -1,11 +1,16 @@
 package thundr.redstonerepository.gui;
 
+import cofh.core.audio.SoundBase;
 import cofh.core.gui.GuiContainerCore;
 import cofh.core.gui.element.ElementButton;
 import cofh.core.gui.element.tab.TabInfo;
 import cofh.core.util.helpers.StringHelper;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import org.lwjgl.input.Keyboard;
 import thundr.redstonerepository.gui.element.ElementEnergyItem;
 import thundr.redstonerepository.gui.element.ElementHungerPoints;
@@ -126,6 +131,6 @@ public class GuiFeeder extends GuiContainerCore {
                 PacketRR.sendAddFood(hungerPerItem * stacksToDelete, stacksToDelete);
             }
         }
-        playClickSound(0.7F);
+        guiSoundManager.playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ENTITY_GENERIC_EAT, 1F));
     }
 }

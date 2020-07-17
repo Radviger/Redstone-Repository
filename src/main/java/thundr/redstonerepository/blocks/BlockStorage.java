@@ -57,80 +57,68 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
 
     @Override
     protected BlockStateContainer createBlockState() {
-
-        return new BlockStateContainer(this, new IProperty[]{VARIANT});
+        return new BlockStateContainer(this, VARIANT);
     }
 
     @Override
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
-
-        for (int i = 0; i < Type.METADATA_LOOKUP.length; i++) {
-            items.add(new ItemStack(this, 1, i));
+        for (Type t : Type.values()) {
+            items.add(new ItemStack(this, 1, t.metadata));
         }
     }
 
     /* TYPE METHODS */
     @Override
     public IBlockState getStateFromMeta(int meta) {
-
-        return this.getDefaultState().withProperty(VARIANT, Type.byMetadata(meta));
+        return getDefaultState().withProperty(VARIANT, Type.byMetadata(meta));
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-
         return state.getValue(VARIANT).getMetadata();
     }
 
     @Override
     public int damageDropped(IBlockState state) {
-
         return state.getValue(VARIANT).getMetadata();
     }
 
     @Override
     public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
-
         return false;
     }
 
     @Override
     public boolean isBeaconBase(IBlockAccess worldObj, BlockPos pos, BlockPos beacon) {
-
         return true;
     }
 
     @Override
     public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
-
         return true;
     }
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-
         return state.getValue(VARIANT).getLight();
     }
 
     @Override
     public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
-
         return state.getValue(VARIANT).getHardness();
     }
 
     @Override
     public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
-
         IBlockState state = world.getBlockState(pos);
         return state.getValue(VARIANT).getResistance();
     }
 
-    /* IModelRegister */
     @Override
     @SideOnly(Side.CLIENT)
     public void registerModels() {
-        for (int i = 0; i < Type.values().length; i++) {
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation("redstonerepository:" + name, "type=" + Type.byMetadata(i).getName()));
+        for (Type t : Type.values()) {
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), t.metadata, new ModelResourceLocation("redstonerepository:" + name, "type=" + t.getName()));
         }
     }
 
@@ -164,19 +152,9 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
         return true;
     }
 
-    /* TYPE */
     public enum Type implements IStringSerializable {
-
         GELID_ENDERIUM(0, "blockGelidEnderium", blockGelidEnderium, 7),
         GELID_GEM(1, "blockGelidGem", blockGelidGem);
-
-        private static final Type[] METADATA_LOOKUP = new Type[values().length];
-
-        static {
-            for (Type type : values()) {
-                METADATA_LOOKUP[type.getMetadata()] = type;
-            }
-        }
 
         private final int metadata;
         private final String name;
@@ -187,7 +165,6 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
         private final EnumRarity rarity;
 
         Type(int metadata, String name, ItemStack stack, int light, float hardness, float resistance, EnumRarity rarity) {
-
             this.metadata = metadata;
             this.name = name;
             this.stack = stack;
@@ -214,57 +191,44 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
         }
 
         Type(int metadata, String name, ItemStack stack) {
-
             this(metadata, name, stack, 0, 25.0F, 120.0F, EnumRarity.RARE);
         }
 
         public static Type byMetadata(int metadata) {
-
-            if (metadata < 0 || metadata >= METADATA_LOOKUP.length) {
-                metadata = 0;
-            }
-            return METADATA_LOOKUP[metadata];
+            return values()[metadata % values().length];
         }
 
         public int getMetadata() {
-            return this.metadata;
+            return metadata;
         }
 
         @Override
         public String getName() {
-
-            return this.name.toLowerCase(Locale.US);
+            return name.toLowerCase(Locale.US);
         }
 
         public String getNameRaw() {
-
-            return this.name;
+            return name;
         }
 
         public ItemStack getStack() {
-
-            return this.stack;
+            return stack;
         }
 
         public int getLight() {
-
-            return this.light;
+            return light;
         }
 
         public float getHardness() {
-
-            return this.hardness;
+            return hardness;
         }
 
         public float getResistance() {
-
-            return this.resistance;
+            return resistance;
         }
 
         public EnumRarity getRarity() {
-
-            return this.rarity;
+            return rarity;
         }
     }
-
 }

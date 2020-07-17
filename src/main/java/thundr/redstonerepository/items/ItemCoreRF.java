@@ -118,6 +118,7 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
         return 1D - (double) stack.getTagCompound().getInteger(CoreProps.ENERGY) / (double) getMaxEnergyStored(stack);
     }
 
+    @Override
     public boolean isActive(ItemStack stack) {
         return getMode(stack) == MODE.ENABLED.getValue() && getEnergyStored(stack) > getEnergyPerUse(stack);
     }

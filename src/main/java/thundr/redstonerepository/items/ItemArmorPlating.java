@@ -48,6 +48,7 @@ public class ItemArmorPlating extends Item {
         list.add(new ItemStack(this, 1, 0));
     }
 
+    @Override
     public EnumRarity getRarity(ItemStack stack) {
         if (stack.getItemDamage() == 0)
             return EnumRarity.RARE;

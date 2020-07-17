@@ -49,10 +49,6 @@ item.redstonerepository.armor.enderium.gelid.boots.name=Enderium Flux Boots
 info.redstonerepository.tooltip.getenergy=Charge: %d / %d RF
 info.redstonerepository.tooltip.peruse=%d RF Per Use
 info.redstonerepository.tooltip.perdamage=%d RF Per Damage
-info.redstonerepository.tooltip.extinguish=Press %s to Quell
-info.redstonerepository.tooltip.empower=Press %s to Empower
-info.redstonerepository.tooltip.damage=+%d Attack Damage
-info.redstonerepository.tooltip.damage.flux=+%d Flux Damage
 info.redstonerepository.tooltip.durability=Durability
 info.redstonerepository.tooltip.bound=Bound Block:
 info.redstonerepository.tooltip.side=Insert Side:
@@ -66,13 +62,17 @@ info.redstonerepository.tooltip.disabled=Currently %sdisabled%s. Press (%s) whil
 info.redstonerepository.tooltip.bind=Sneak right click to bind an inventory when empowered.
 info.redstonerepository.tooltip.notbound=Not Bound to an Inventory.
 
+info.redstonerepository.tooltip.smash=Smashes mobs in a large radius when empowered.
+
+info.redstonerepository.tooltip.fertilize=Right click to rapidly grow crops. Works better when empowered.
+
 info.redstonerepository.tooltip.lightning=Right click a block to call down the power of the sky when empowered.
 
 info.redstonerepository.tooltip.hungerPoints=%d / %d Hunger Points
 
 #Chat Messages
-info.redstonerepository.chat.boundto.txt=Bound to:
-info.redstonerepository.chat.unbound.txt=Item unbound!
+info.redstonerepository.tooltip.linked=Link established
+info.redstonerepository.tooltip.unlinked=Unlinked
 
 #Config
 config.redstonerepository.title=Redstone Repository Configuration

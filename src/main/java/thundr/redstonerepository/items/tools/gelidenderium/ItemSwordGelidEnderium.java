@@ -20,7 +20,6 @@ import java.util.List;
 
 
 public class ItemSwordGelidEnderium extends ItemSwordFlux {
-
     //eventually set a config for this
     public int radius = 8;
 
@@ -36,7 +35,6 @@ public class ItemSwordGelidEnderium extends ItemSwordFlux {
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase player) {
-
         if (stack.getItemDamage() > 0) {
             stack.setItemDamage(0);
         }
@@ -67,10 +65,9 @@ public class ItemSwordGelidEnderium extends ItemSwordFlux {
         return true;
     }
 
-
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(StringHelper.BRIGHT_GREEN + "Smashes mobs in a large radius when empowered.");
+        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.smash"));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

@@ -33,6 +33,7 @@ public class ClientProxy extends CommonProxy {
         super.postInit(event);
     }
 
+    @Override
     public boolean addIModelRegister(IModelRegister modelRegister) {
 
         return modelList.add(modelRegister);

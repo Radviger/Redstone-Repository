@@ -412,6 +412,7 @@ public class RedstoneRepositoryEquipment {
         public static int effectRingTransfer;
         public static int effectRingCapacity;
 
+        @Override
         public boolean preInit() {
             config();
 
@@ -483,6 +484,7 @@ public class RedstoneRepositoryEquipment {
             enable[3] = enableLoaded && enableMiningRingConfig;
         }
 
+        @Override
         public boolean initialize() {
             mushroomStewBucket = FluidUtil.getFilledBucket(FluidRegistry.getFluidStack("mushroom_stew", 1000));
             if (enable[0]) {
@@ -542,6 +544,7 @@ public class RedstoneRepositoryEquipment {
             return true;
         }
 
+        @Override
         @SideOnly(Side.CLIENT)
         public void registerModels() {
             ModelLoader.setCustomModelResourceLocation(itemCapacitorAmulet, 0, new ModelResourceLocation(RedstoneRepository.ID + ":" + "capacitor_gelid", "inventory"));

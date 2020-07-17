@@ -68,6 +68,7 @@ public class ItemArmorEnderium extends ItemArmorFlux implements IArmorEnderium {
         return extractEnergy(container, maxExtract, false);
     }
 
+    @Override
     public boolean isEnderiumArmor(ItemStack stack) {
         return true;
     }

@@ -29,27 +29,16 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-//why this dont work?
-//import static codechicken.lib.util.ItemNBTUtils;
-
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
 public class ItemRingEffect extends ItemCoreRF implements IBauble {
-
     public final static int POTION_DURATION_TICKS = 290;
     public static final String POWER_TICK = "pwrTick";
     public static final String UNTIL_SAFE_TO_REMOVE = "cd";
     public static final String EFFECTS = "efx";
     public static final String AMPLIFIER = "amp";
     public static final String ON_COOLDOWN = "cd2";
-    public static int removalTimer = 100;
-    public static int cooldownTimer = 1200;
+    public int removalTimer, cooldownTimer;
     public ConcurrentHashMap<UUID, ArrayList<PotionEffect>> globalMap;
-
-//	public static int cooldownThreshold;
-//	public static int cooldownDuration;
-//	public static int powerMultiplier;
-//	public static int effectRingTransfer;
-//	public static int effectRingCapacity;
 
     public ItemRingEffect(int cooldownThreshold, int cooldownDuration, int powerMultiplier, int effectRingTransfer, int effectRingCapacity) {
         super(RedstoneRepository.NAME);
@@ -66,8 +55,7 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag advanced) {
         if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
             tooltip.add(StringHelper.shiftForDetails());
         }
@@ -93,11 +81,13 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         tooltip.add(StringHelper.localize("info.cofh.send") + "/" + StringHelper.localize("info.cofh.receive") + ": " + StringHelper.formatNumber(maxTransfer) + "/" + StringHelper.formatNumber(maxTransfer) + " RF/t");
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.RING;
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public void onEquipped(ItemStack ring, EntityLivingBase player) {
         if (!(player instanceof EntityPlayer) || player.world.isRemote || CoreUtils.isFakePlayer(player)) {
@@ -136,6 +126,7 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         }
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public void onUnequipped(ItemStack ring, EntityLivingBase player) {
         if (!(player instanceof EntityPlayer) || player.world.isRemote || CoreUtils.isFakePlayer(player)) {
@@ -156,6 +147,7 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         globalMap.remove(player.getUniqueID());
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack ring, EntityLivingBase player) {
         if (!(player instanceof EntityPlayer) || player.world.isRemote || CoreUtils.isFakePlayer(player)) {
@@ -204,6 +196,7 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         }
     }
 
+    @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity player, int itemSlot, boolean isSelected) {
         if (!(player instanceof EntityPlayer) || player.world.isRemote || CoreUtils.isFakePlayer(player)) {
             return;

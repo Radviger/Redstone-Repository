@@ -85,7 +85,8 @@ public class ItemCapacitorAmulet extends ItemCoreRF implements IBauble, INBTCopy
         tooltip.add(StringHelper.localize("info.cofh.send") + "/" + StringHelper.localize("info.cofh.receive") + ": " + StringHelper.formatNumber(maxTransfer) + "/" + StringHelper.formatNumber(maxTransfer) + " RF/t");
     }
 
-    @Optional.Method(modid = "baubles")
+    @Override
+	@Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack cap, EntityLivingBase player) {
         if (!isActive(cap) || player.world.isRemote || CoreUtils.isFakePlayer(player) || !(player instanceof EntityPlayer)) {
             return;
@@ -111,7 +112,8 @@ public class ItemCapacitorAmulet extends ItemCoreRF implements IBauble, INBTCopy
         }
     }
 
-    @Optional.Method(modid = "baubles")
+    @Override
+	@Optional.Method(modid = "baubles")
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.AMULET;
     }

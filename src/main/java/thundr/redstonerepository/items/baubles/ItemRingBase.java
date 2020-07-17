@@ -14,6 +14,7 @@ public class ItemRingBase extends ItemCore implements IBauble {
         setMaxStackSize(1);
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.RING;

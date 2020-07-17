@@ -31,13 +31,11 @@ public class ItemShovelGelidEnderium extends ItemShovelFlux {
         maxTransfer = GelidEnderiumEnergy.maxTransfer;
     }
 
+    @Override
     public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
         ItemStack stack = player.getHeldItem(hand);
 
         if (!player.isSneaking() && stack.getItem() instanceof ItemShovelGelidEnderium) {
-            ItemShovelGelidEnderium shovel = (ItemShovelGelidEnderium) stack.getItem();
-
             if (!player.canPlayerEdit(pos, facing, stack)) {
                 return EnumActionResult.FAIL;
             }
@@ -116,7 +114,7 @@ public class ItemShovelGelidEnderium extends ItemShovelFlux {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(StringHelper.BRIGHT_GREEN + "Right click to rapidly grow crops. Works better when empowered.");
+        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.fertilize"));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

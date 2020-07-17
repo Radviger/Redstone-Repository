@@ -52,6 +52,7 @@ public class ItemRingMining extends ItemCoreRF implements IBauble {
         tooltip.add(StringHelper.localize("info.cofh.send") + "/" + StringHelper.localize("info.cofh.receive") + ": " + StringHelper.formatNumber(maxTransfer) + "/" + StringHelper.formatNumber(maxTransfer) + " RF/t");
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.RING;

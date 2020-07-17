@@ -55,6 +55,7 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
 
     }
 
+    @Override
     @Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack feeder, EntityLivingBase player) {
         //enjoy your soylent...
@@ -104,6 +105,7 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
     }
 
 
+    @Override
     @Optional.Method(modid = "baubles")
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.BELT;
@@ -127,6 +129,7 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
         return Math.min(container.getTagCompound().getInteger("Hunger"), getMaxHungerPoints(container));
     }
 
+    @Override
     public int receiveHungerPoints(ItemStack container, int maxReceive, boolean simulate) {
         HungerHelper.setDefaultHungerTag(container);
         int stored = Math.min(container.getTagCompound().getInteger("Hunger"), getMaxHungerPoints(container));
@@ -139,6 +142,7 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
         return receive;
     }
 
+    @Override
     public int useHungerPoints(ItemStack container, int maxExtract, EntityPlayer player) {
         if (isCreative) {
             return maxExtract;
@@ -153,6 +157,7 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
         return extract;
     }
 
+    @Override
     public int getMaxHungerPoints(ItemStack container) {
         int enchant = EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, container);
         return hungerPointsMax + hungerPointsMax * enchant / 2;

@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,10 +17,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -42,36 +46,42 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
 
-        if (!world.isRemote && player.isSneaking()) {
-            if (!stack.hasTagCompound())
-                stack.setTagCompound(new NBTTagCompound());
+        if (player.isSneaking()) {
+            if (!world.isRemote) {
+                if (!stack.hasTagCompound()) {
+                    stack.setTagCompound(new NBTTagCompound());
+                }
 
-            TileEntity tile = world.getTileEntity(pos);
+                TileEntity tile = world.getTileEntity(pos);
 
-            if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing)) {
-                stack.getTagCompound().setBoolean("Bound", true);
-                stack.getTagCompound().setInteger("CoordX", x);
-                stack.getTagCompound().setInteger("CoordY", y);
-                stack.getTagCompound().setInteger("CoordZ", z);
-                stack.getTagCompound().setInteger("DimID", world.provider.getDimension());
-                stack.getTagCompound().setInteger("Side", facing.getIndex());
-                player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("info.redstonerepository.chat.boundto.txt").getFormattedText() + " x: " + x + " y: " + y + " z: " + z), false);
-                return EnumActionResult.SUCCESS;
-            } else {
-                stack.getTagCompound().setBoolean("Bound", false);
-                stack.getTagCompound().setInteger("CoordX", 0);
-                stack.getTagCompound().setInteger("CoordY", 0);
-                stack.getTagCompound().setInteger("CoordZ", 0);
-                stack.getTagCompound().setInteger("DimID", 0);
-                stack.getTagCompound().setInteger("Side", 0);
-                player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("info.redstonerepository.chat.unbound.txt").getFormattedText()), false);
-                return EnumActionResult.PASS;
+                NBTTagCompound compound = stack.getTagCompound();
+
+                ITextComponent msg;
+
+                if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing)) {
+                    compound.setBoolean("Bound", true);
+                    compound.setInteger("CoordX", pos.getX());
+                    compound.setInteger("CoordY", pos.getY());
+                    compound.setInteger("CoordZ", pos.getZ());
+                    compound.setInteger("DimID", world.provider.getDimension());
+                    compound.setInteger("Side", facing.getIndex());
+                    msg = new TextComponentTranslation("info.redstonerepository.tooltip.linked");
+                    msg.getStyle().setColor(TextFormatting.GREEN);
+                } else {
+                    compound.setBoolean("Bound", false);
+                    compound.removeTag("CoordX");
+                    compound.removeTag("CoordY");
+                    compound.removeTag("CoordZ");
+                    compound.removeTag("DimID");
+                    compound.removeTag("Side");
+                    msg = new TextComponentTranslation("info.redstonerepository.tooltip.unlinked");
+                    msg.getStyle().setColor(TextFormatting.RED);
+                }
+                world.playSound(null, pos, SoundEvents.ENTITY_ENDEREYE_DEATH, SoundCategory.BLOCKS, 1F, 1F);
+                player.sendStatusMessage(msg, true);
             }
-
+            return EnumActionResult.SUCCESS;
         } else {
             return EnumActionResult.FAIL;
         }
@@ -121,7 +131,6 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
     // From ItemFluxHammer and ItemFluxPickaxe combined.
     @Override
     public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-
         World world = player.world;
         IBlockState state = world.getBlockState(pos);
 
