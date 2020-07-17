@@ -2,23 +2,23 @@
 itemGroup.redstonerepository.creativeTab=Redstone Repository
 
 #Items
-item.redstonerepository.material.dustGelidEnderium.name=Смесь ледянящего эндериума
-item.redstonerepository.material.gearGelidEnderium.name=Ледянящая эндериумная шестерня
-item.redstonerepository.material.gemGelid.name=Ледянящий кристалл
-item.redstonerepository.material.ingotGelidEnderium.name=Ледянящий эндериумный слиток
-item.redstonerepository.material.nuggetGelidEnderium.name=Кусочек ледянящего эндериума
-item.redstonerepository.material.plateGelidEnderium.name=Ледянящий эндериумная пластина
-item.redstonerepository.material.plateArmorGelidEnderium.name=Ледянящее эндериумное покрытие брони
-item.redstonerepository.material.rodGelid.name=Ледянящий стержень
+item.redstonerepository.material.dustGelidEnderium.name=Смесь леденящего эндериума
+item.redstonerepository.material.gearGelidEnderium.name=леденящая эндериумная шестерня
+item.redstonerepository.material.gemGelid.name=леденящий кристалл
+item.redstonerepository.material.ingotGelidEnderium.name=леденящий эндериумный слиток
+item.redstonerepository.material.nuggetGelidEnderium.name=Кусочек леденящего эндериума
+item.redstonerepository.material.plateGelidEnderium.name=леденящий эндериумная пластина
+item.redstonerepository.material.plateArmorGelidEnderium.name=леденящее эндериумное покрытие брони
+item.redstonerepository.material.rodGelid.name=леденящий стержень
 item.redstonerepository.material.stringFluxed.name=Флаксовая нить
-tile.redstonerepository.storage.blockGelidEnderium.name=Ледянящий эндериумный блок
-tile.redstonerepository.storage.blockGelidGem.name=Блок ледянящего кристалла
+tile.redstonerepository.storage.blockGelidEnderium.name=леденящий эндериумный блок
+tile.redstonerepository.storage.blockGelidGem.name=Блок леденящего кристалла
 
 #Equipment
-item.redstonerepository.bauble.capacitor.gelid.name=Ледянящий амулет с флаксовым конденсатором
+item.redstonerepository.bauble.capacitor.gelid.name=леденящий амулет с флаксовым конденсатором
 item.redstonerepository.bauble.feeder.name=Эндоскопический гастронаполнитель
 item.redstonerepository.bauble.ring.effect.name=Кольцо алхимического стазиса
-item.redstonerepository.bauble.ring.base.name=Ледянящее эндериумное кольцо
+item.redstonerepository.bauble.ring.base.name=леденящее эндериумное кольцо
 item.redstonerepository.bauble.ring.mining.name=Кольцо разрушительной стабилизации
 
 #Equipment Tooltip Titles
@@ -32,25 +32,25 @@ info.redstonerepository.ring.mining.title=Скорость добычи в по�
 info.redstonerepository.ring.effect.disabled=Перегрелось! Остынет через: (%s) сек.
 
 #Tools
-item.redstonerepository.tool.enderium.gelid.axe.name=Наполненный флаксом ледянящий топор
-item.redstonerepository.tool.enderium.gelid.battlewrench.name=Наполненный флаксом ледянящий боевой гаечный ключ
-item.redstonerepository.tool.enderium.gelid.pickaxe.name=Наполненная флаксом ледянящая кирка
-item.redstonerepository.tool.enderium.gelid.shovel.name=Наполненная флаксом ледянящая лопата
-item.redstonerepository.tool.enderium.gelid.sickle.name=Наполненный флаксом ледянящий серп
-item.redstonerepository.tool.enderium.gelid.sword.name=Наполненный флаксом ледянящий меч
+item.redstonerepository.tool.enderium.gelid.axe.name=Наполненный флаксом леденящий топор
+item.redstonerepository.tool.enderium.gelid.battlewrench.name=Наполненный флаксом леденящий боевой гаечный ключ
+item.redstonerepository.tool.enderium.gelid.pickaxe.name=Наполненная флаксом леденящая кирка
+item.redstonerepository.tool.enderium.gelid.shovel.name=Наполненная флаксом леденящая лопата
+item.redstonerepository.tool.enderium.gelid.sickle.name=Наполненный флаксом леденящий серп
+item.redstonerepository.tool.enderium.gelid.sword.name=Наполненный флаксом леденящий меч
 
 #Armor
-item.redstonerepository.armor.enderium.gelid.helm.name=Наполненный флаксом ледянящий шлем
-item.redstonerepository.armor.enderium.gelid.chestplate.name=Наполненный флаксом ледянящяя кираса
-item.redstonerepository.armor.enderium.gelid.leggings.name=Наполненные флаксом ледянящие поножи
-item.redstonerepository.armor.enderium.gelid.boots.name=Наполненные флаксом ледянящие ботинки
+item.redstonerepository.armor.enderium.gelid.helm.name=Наполненный флаксом леденящий шлем
+item.redstonerepository.armor.enderium.gelid.chestplate.name=Наполненный флаксом леденящяя кираса
+item.redstonerepository.armor.enderium.gelid.leggings.name=Наполненные флаксом леденящие поножи
+item.redstonerepository.armor.enderium.gelid.boots.name=Наполненные флаксом леденящие ботинки
 
 #General Tooltips
 info.redstonerepository.tooltip.getenergy=Заряд: %d / %d RF
 info.redstonerepository.tooltip.peruse=%d RF за использование
 info.redstonerepository.tooltip.perdamage=%d RF за единицу урона
 info.redstonerepository.tooltip.durability=Прочность
-info.redstonerepository.tooltip.bound=Связанный блок:
+info.redstonerepository.tooltip.bound=Связанный контейнер:
 info.redstonerepository.tooltip.side=Сторона вмещения:
 info.redstonerepository.tooltip.forDetails=для подробностей о связи
 info.redstonerepository.tooltip.control=Control
