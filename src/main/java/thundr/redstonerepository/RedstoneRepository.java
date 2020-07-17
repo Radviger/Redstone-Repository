@@ -29,27 +29,23 @@ import java.io.File;
 
 @Mod(modid = RedstoneRepository.ID, name = RedstoneRepository.NAME, version = RedstoneRepository.VERSION, dependencies = RedstoneRepository.REQUIRED, guiFactory = RedstoneRepository.GUIFACTORY)
 public class RedstoneRepository {
-	//test jenkins
+    //test jenkins
     public static final String NAME = "Redstone Repository";
     public static final String ID = "redstonerepository";
     public static final String VERSION = "1.3.2";
     public static final String GUIFACTORY = "thundr.redstonerepository.gui.ConfigGuiFactory";
     public static final String REQUIRED = "required-after:redstonearsenal@[2.3.11,);" + "required-after:cofhcore@[4.3.11,);" +
-            "required-after:thermalfoundation@[2.3.11,);" + "required-after:thermalexpansion@[5.3.11,);" + "after:baubles;";
+        "required-after:thermalfoundation@[2.3.11,);" + "required-after:thermalexpansion@[5.3.11,);" + "after:baubles;";
     public static final String CLIENTPROXY = "thundr.redstonerepository.proxies.ClientProxy";
     public static final String COMMONPROXY = "thundr.redstonerepository.proxies.CommonProxy";
-    
-    @Mod.Instance (ID)
+    public static final Logger LOG = LogManager.getLogger(ID);
+    public static final ConfigHandler CONFIG = new ConfigHandler(VERSION);
+    public static final ConfigHandler CONFIG_CLIENT = new ConfigHandler(VERSION);
+    @Mod.Instance(ID)
     public static RedstoneRepository instance;
-
     @SidedProxy(clientSide = CLIENTPROXY, serverSide = COMMONPROXY)
     public static CommonProxy proxy;
-
-	public static final Logger LOG = LogManager.getLogger(ID);
-	public static final ConfigHandler CONFIG = new ConfigHandler(VERSION);
-	public static final ConfigHandler CONFIG_CLIENT = new ConfigHandler(VERSION);
-
-	public static CreativeTabs tabCommon;
+    public static CreativeTabs tabCommon;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -57,15 +53,15 @@ public class RedstoneRepository {
         CONFIG.setConfiguration(new Configuration(new File(CoreProps.configDir, "/redstonerepository/common.cfg"), true));
         CONFIG_CLIENT.setConfiguration(new Configuration(new File(CoreProps.configDir, "/redstonerepository/client.cfg"), true));
 
-	    RedstoneRepositoryProps.preInit();
+        RedstoneRepositoryProps.preInit();
         RedstoneRepositoryBlocks.preInit();
         RedstoneRepositoryItems.preInit();
         RedstoneRepositoryEquipment.preInit();
-	    ArmorEventHandler.preInit();
-	    ToolEventHandler.preInit();
+        ArmorEventHandler.preInit();
+        ToolEventHandler.preInit();
 
-	    PacketHandler.INSTANCE.registerPacket(PacketRR.class);
-	    NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+        PacketHandler.INSTANCE.registerPacket(PacketRR.class);
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
         proxy.preInit(event);
     }

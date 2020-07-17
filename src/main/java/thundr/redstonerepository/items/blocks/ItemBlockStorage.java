@@ -24,5 +24,4 @@ public class ItemBlockStorage extends ItemBlockCore {
     public EnumRarity getRarity(ItemStack stack) {
         return Type.byMetadata(ItemHelper.getItemDamage(stack)).getRarity();
     }
-
 }

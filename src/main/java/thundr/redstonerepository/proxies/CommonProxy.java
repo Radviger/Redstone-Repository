@@ -11,7 +11,7 @@ import thundr.redstonerepository.util.ToolEventHandler;
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
-    	registerEventHandlers();
+        registerEventHandlers();
     }
 
     public void initialize(FMLInitializationEvent event) {
@@ -21,13 +21,14 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
 
     }
+
     /* HELPERS */
     public boolean addIModelRegister(IModelRegister modelRegister) {
         return false;
     }
 
-    private void registerEventHandlers(){
-	    MinecraftForge.EVENT_BUS.register(new ArmorEventHandler());
-	    MinecraftForge.EVENT_BUS.register(new ToolEventHandler());
+    private void registerEventHandlers() {
+        MinecraftForge.EVENT_BUS.register(new ArmorEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ToolEventHandler());
     }
 }

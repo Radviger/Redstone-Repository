@@ -16,17 +16,18 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 
 
-public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux{
+public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux {
 
     public int radius = 10;
+
     public ItemBattleWrenchGelidEnderium(ToolMaterial toolMaterial) {
         super(toolMaterial);
         damage = 7;
         damageCharged = 2;
-	    maxEnergy = GelidEnderiumEnergy.maxEnergy;
-	    energyPerUse = GelidEnderiumEnergy.energyPerUse;
-	    energyPerUseCharged =  GelidEnderiumEnergy.energyPerUseCharged;
-	    maxTransfer = GelidEnderiumEnergy.maxTransfer;
+        maxEnergy = GelidEnderiumEnergy.maxEnergy;
+        energyPerUse = GelidEnderiumEnergy.energyPerUse;
+        energyPerUseCharged = GelidEnderiumEnergy.energyPerUseCharged;
+        maxTransfer = GelidEnderiumEnergy.maxTransfer;
     }
 
     @Override
@@ -36,11 +37,11 @@ public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux{
 
         if (!world.isRemote && hand == EnumHand.MAIN_HAND && isEmpowered(held)) {
             ArrayList<EntityItem> items = new ArrayList<>(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius,
-                    pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius)));
+                pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius)));
 
-            if(items.size() > 0 && getEnergyStored(held) >= energyPerUseCharged * items.size()){
+            if (items.size() > 0 && getEnergyStored(held) >= energyPerUseCharged * items.size()) {
 
-                for(EntityItem i : items){
+                for (EntityItem i : items) {
                     i.setPosition(pos.getX(), pos.getY(), pos.getZ());
                 }
 
@@ -59,8 +60,8 @@ public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux{
         return EnumRarity.RARE;
     }
 
-	@Override
-	public int getRGBDurabilityForDisplay(ItemStack stack) {
-		return CoreProps.RGB_DURABILITY_ENDER;
-	}
+    @Override
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        return CoreProps.RGB_DURABILITY_ENDER;
+    }
 }

@@ -29,19 +29,18 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux{
+public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
 
     public ItemPickaxeGelidEnderium(ToolMaterial toolMaterial) {
         super(toolMaterial);
         maxEnergy = GelidEnderiumEnergy.maxEnergy;
-	    energyPerUse = GelidEnderiumEnergy.energyPerUse;
-	    energyPerUseCharged =  GelidEnderiumEnergy.energyPerUseCharged;
-	    maxTransfer = GelidEnderiumEnergy.maxTransfer;
+        energyPerUse = GelidEnderiumEnergy.energyPerUse;
+        energyPerUseCharged = GelidEnderiumEnergy.energyPerUseCharged;
+        maxTransfer = GelidEnderiumEnergy.maxTransfer;
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
         int x = pos.getX();
         int y = pos.getY();
@@ -54,28 +53,26 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux{
             TileEntity tile = world.getTileEntity(pos);
 
             if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing)) {
-            	stack.getTagCompound().setBoolean("Bound", true);
+                stack.getTagCompound().setBoolean("Bound", true);
                 stack.getTagCompound().setInteger("CoordX", x);
                 stack.getTagCompound().setInteger("CoordY", y);
                 stack.getTagCompound().setInteger("CoordZ", z);
                 stack.getTagCompound().setInteger("DimID", world.provider.getDimension());
                 stack.getTagCompound().setInteger("Side", facing.getIndex());
-                player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("info.redstonerepository.chat.boundto.txt").getFormattedText() + " x: " + x + " y: " + y + " z: " + z),false);
+                player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("info.redstonerepository.chat.boundto.txt").getFormattedText() + " x: " + x + " y: " + y + " z: " + z), false);
                 return EnumActionResult.SUCCESS;
-            }
-            else{
-	            stack.getTagCompound().setBoolean("Bound", false);
-	            stack.getTagCompound().setInteger("CoordX", 0);
-	            stack.getTagCompound().setInteger("CoordY", 0);
-	            stack.getTagCompound().setInteger("CoordZ", 0);
-	            stack.getTagCompound().setInteger("DimID",0);
-	            stack.getTagCompound().setInteger("Side", 0);
-	            player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("info.redstonerepository.chat.unbound.txt").getFormattedText()),false);
+            } else {
+                stack.getTagCompound().setBoolean("Bound", false);
+                stack.getTagCompound().setInteger("CoordX", 0);
+                stack.getTagCompound().setInteger("CoordY", 0);
+                stack.getTagCompound().setInteger("CoordZ", 0);
+                stack.getTagCompound().setInteger("DimID", 0);
+                stack.getTagCompound().setInteger("Side", 0);
+                player.sendStatusMessage(new TextComponentString(new TextComponentTranslation("info.redstonerepository.chat.unbound.txt").getFormattedText()), false);
                 return EnumActionResult.PASS;
             }
 
-        }
-        else{
+        } else {
             return EnumActionResult.FAIL;
         }
     }
@@ -84,38 +81,37 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux{
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("unchecked")
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-	    tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bind"));
+        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bind"));
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        if(stack.hasTagCompound()){
+        if (stack.hasTagCompound()) {
 
             //coordX, coordY, coordZ, dimID, side
             int[] values = new int[5];
             boolean isBound = false;
             NBTTagCompound tags = stack.getTagCompound();
 
-            if(tags.hasKey("CoordX"))
+            if (tags.hasKey("CoordX"))
                 values[0] = tags.getInteger("CoordX");
-            if(tags.hasKey("CoordY"))
+            if (tags.hasKey("CoordY"))
                 values[1] = tags.getInteger("CoordY");
-            if(tags.hasKey("CoordZ"))
+            if (tags.hasKey("CoordZ"))
                 values[2] = tags.getInteger("CoordZ");
-            if(tags.hasKey("DimID"))
+            if (tags.hasKey("DimID"))
                 values[3] = tags.getInteger("DimID");
-            if(tags.hasKey("Side"))
+            if (tags.hasKey("Side"))
                 values[4] = tags.getInteger("Side");
-            if(tags.hasKey("Bound"))
-            	isBound = tags.getBoolean("Bound");
+            if (tags.hasKey("Bound"))
+                isBound = tags.getBoolean("Bound");
 
             String sideString = EnumFacing.getFront(values[4]).getName().toLowerCase();
 
             if (StringHelper.isControlKeyDown()) {
-            	if(isBound) {
-		            tooltip.add(StringHelper.localize(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bound") + StringHelper.LIGHT_GRAY + " " + values[0] + ", " + values[1] + ", " + values[2] + ". DimID: " + values[3]));
-		            tooltip.add(StringHelper.localize(StringHelper.BRIGHT_BLUE + StringHelper.localize("info.redstonerepository.tooltip.side") + StringHelper.LIGHT_GRAY + " " + Character.toUpperCase(sideString.charAt(0)) + sideString.substring(1)));
-	            }
-	            else{
-            		tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.notbound"));
-	            }
+                if (isBound) {
+                    tooltip.add(StringHelper.localize(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bound") + StringHelper.LIGHT_GRAY + " " + values[0] + ", " + values[1] + ", " + values[2] + ". DimID: " + values[3]));
+                    tooltip.add(StringHelper.localize(StringHelper.BRIGHT_BLUE + StringHelper.localize("info.redstonerepository.tooltip.side") + StringHelper.LIGHT_GRAY + " " + Character.toUpperCase(sideString.charAt(0)) + sideString.substring(1)));
+                } else {
+                    tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.notbound"));
+                }
             } else {
                 tooltip.add(StringHelper.localize("info.redstonerepository.tooltip.hold") + " " + StringHelper.YELLOW + StringHelper.ITALIC + StringHelper.localize("info.redstonerepository.tooltip.control") + " " + StringHelper.LIGHT_GRAY + StringHelper.localize("info.redstonerepository.tooltip.forDetails"));
             }
@@ -144,7 +140,7 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux{
         if (refStrength != 0.0F) {
             boolean used = false;
 
-            if(isEmpowered(stack) && canHarvestBlock(state, stack)) {
+            if (isEmpowered(stack) && canHarvestBlock(state, stack)) {
                 RayTraceResult traceResult = RayTracer.retrace(player, false);
 
                 if (traceResult == null || traceResult.sideHit == null) {
@@ -221,9 +217,9 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux{
         }
         BlockPos harvestPos;
 
-	    int x = pos.getX();
-	    int y = pos.getY();
-	    int z = pos.getZ();
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
         int radius = 1;
 
         switch (traceResult.sideHit) {
@@ -283,7 +279,7 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux{
         return CoreProps.RGB_DURABILITY_ENDER;
     }
 
-    public int getEnergyPerUseCharged(){
-    	return this.energyPerUseCharged;
+    public int getEnergyPerUseCharged() {
+        return this.energyPerUseCharged;
     }
 }

@@ -27,48 +27,48 @@ public class ItemArmorEnderium extends ItemArmorFlux implements IArmorEnderium {
         setMaxDamage(5);
 
         this.maxEnergy = 4000000;
-	    this.energyPerDamage = 4500;
-	    this.absorbRatio = .95D;
-	    this.maxTransfer = 20000;
+        this.energyPerDamage = 4500;
+        this.absorbRatio = .95D;
+        this.maxTransfer = 20000;
     }
 
-	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		if(stack.getItem().getRegistryName().toString().contains("boot"))
-			tooltip.add(StringHelper.GRAY + "Falling costs energy, but does no damage.");
-		if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
-			tooltip.add(StringHelper.shiftForDetails());
-		}
-		if (!StringHelper.isShiftKeyDown()) {
-			return;
-		}
-		if (stack.getTagCompound() == null) {
-			EnergyHelper.setDefaultEnergyTag(stack, 0);
-		}
-		tooltip.add(StringHelper.BRIGHT_BLUE + "Full Set: " + StringHelper.GRAY + "Fire Damage ineffective, but drains energy. ");
-		tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.formatNumber(stack.getTagCompound().getInteger("Energy")) + " / " + StringHelper.formatNumber(getMaxEnergyStored(stack)) + " RF");
-	}
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (stack.getItem().getRegistryName().toString().contains("boot"))
+            tooltip.add(StringHelper.GRAY + "Falling costs energy, but does no damage.");
+        if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
+            tooltip.add(StringHelper.shiftForDetails());
+        }
+        if (!StringHelper.isShiftKeyDown()) {
+            return;
+        }
+        if (stack.getTagCompound() == null) {
+            EnergyHelper.setDefaultEnergyTag(stack, 0);
+        }
+        tooltip.add(StringHelper.BRIGHT_BLUE + "Full Set: " + StringHelper.GRAY + "Fire Damage ineffective, but drains energy. ");
+        tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.formatNumber(stack.getTagCompound().getInteger("Energy")) + " / " + StringHelper.formatNumber(getMaxEnergyStored(stack)) + " RF");
+    }
 
-	@Override
+    @Override
     public EnumRarity getRarity(ItemStack stack) {
         return EnumRarity.RARE;
     }
 
-	@Override
-	public int getRGBDurabilityForDisplay(ItemStack stack) {
-		return CoreProps.RGB_DURABILITY_ENDER;
-	}
+    @Override
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        return CoreProps.RGB_DURABILITY_ENDER;
+    }
 
-	//soon
-	public int useEnergy(ItemStack container, int maxExtract, boolean simulate) {
-		int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, container), 0, 10);
-		if (MathHelper.RANDOM.nextInt(3 + unbreakingLevel) >= 3) {
-			return 0;
-		}
-		return extractEnergy(container, maxExtract, false);
-	}
+    //soon
+    public int useEnergy(ItemStack container, int maxExtract, boolean simulate) {
+        int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, container), 0, 10);
+        if (MathHelper.RANDOM.nextInt(3 + unbreakingLevel) >= 3) {
+            return 0;
+        }
+        return extractEnergy(container, maxExtract, false);
+    }
 
-	public boolean isEnderiumArmor(ItemStack stack) {
-		return true;
-	}
+    public boolean isEnderiumArmor(ItemStack stack) {
+        return true;
+    }
 }

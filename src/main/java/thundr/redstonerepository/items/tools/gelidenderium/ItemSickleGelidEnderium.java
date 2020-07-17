@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 public class ItemSickleGelidEnderium extends ItemSickleFlux {
     public ItemSickleGelidEnderium(ToolMaterial toolMaterial) {
         super(toolMaterial);
-	    maxEnergy = GelidEnderiumEnergy.maxEnergy;
-	    energyPerUse = GelidEnderiumEnergy.energyPerUse;
-	    energyPerUseCharged =  GelidEnderiumEnergy.energyPerUseCharged;
-	    maxTransfer = GelidEnderiumEnergy.maxTransfer;
+        maxEnergy = GelidEnderiumEnergy.maxEnergy;
+        energyPerUse = GelidEnderiumEnergy.energyPerUse;
+        energyPerUseCharged = GelidEnderiumEnergy.energyPerUseCharged;
+        maxTransfer = GelidEnderiumEnergy.maxTransfer;
         radius = 5;
     }
 
@@ -22,8 +22,8 @@ public class ItemSickleGelidEnderium extends ItemSickleFlux {
         return EnumRarity.RARE;
     }
 
-	@Override
-	public int getRGBDurabilityForDisplay(ItemStack stack) {
-		return CoreProps.RGB_DURABILITY_ENDER;
-	}
+    @Override
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        return CoreProps.RGB_DURABILITY_ENDER;
+    }
 }

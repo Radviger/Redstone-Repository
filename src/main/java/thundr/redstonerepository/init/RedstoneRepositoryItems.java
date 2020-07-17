@@ -12,6 +12,9 @@ import java.util.ArrayList;
 public class RedstoneRepositoryItems {
 
     public static final RedstoneRepositoryItems INSTANCE = new RedstoneRepositoryItems();
+    /* REFERENCES */
+    public static ItemMaterial itemMaterial;
+    static ArrayList<IInitializer> initList = new ArrayList<>();
 
     private RedstoneRepositoryItems() {
 
@@ -37,11 +40,6 @@ public class RedstoneRepositoryItems {
             init.initialize();
         }
     }
-
-    static ArrayList<IInitializer> initList = new ArrayList<>();
-
-    /* REFERENCES */
-    public static ItemMaterial itemMaterial;
 
 
 }

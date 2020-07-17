@@ -37,8 +37,8 @@ public class ItemMaterial extends ItemMulti implements IInitializer {
     /* IInitializer */
     @Override
     public boolean preInit() {
-	    ForgeRegistries.ITEMS.register(setRegistryName("material"));
-	    RedstoneRepository.proxy.addIModelRegister(this);
+        ForgeRegistries.ITEMS.register(setRegistryName("material"));
+        RedstoneRepository.proxy.addIModelRegister(this);
         dustGelidEnderium = addOreDictItem(0, "dustGelidEnderium", EnumRarity.RARE);
         ingotGelidEnderium = addOreDictItem(1, "ingotGelidEnderium", EnumRarity.RARE);
         nuggetGelidEnderium = addOreDictItem(2, "nuggetGelidEnderium", EnumRarity.RARE);
@@ -47,7 +47,7 @@ public class ItemMaterial extends ItemMulti implements IInitializer {
         gemGelid = addOreDictItem(5, "gemGelid", EnumRarity.RARE);
         rodGelid = addItem(6, "rodGelid", EnumRarity.RARE);
         plateArmorGelidEnderium = addItem(7, "plateArmorGelidEnderium", EnumRarity.RARE);
-	    stringFluxed = addOreDictItem(8, "stringFluxed", EnumRarity.UNCOMMON);
+        stringFluxed = addOreDictItem(8, "stringFluxed", EnumRarity.UNCOMMON);
 
         return true;
     }
@@ -60,13 +60,13 @@ public class ItemMaterial extends ItemMulti implements IInitializer {
         addReverseStorageRecipe(gemGelid, "blockGelidGem");
 
         addGearRecipe(gearGelidEnderium, "ingotGelidEnderium");
-        
+
         addShapedRecipe(rodGelid, "  O", " B ", "O  ", 'B', cofh.redstonearsenal.item.ItemMaterial.rodObsidian, 'O', "gemGelid");
         addShapedRecipe(plateArmorGelidEnderium, " I ", "IGI", " I ", 'G', "gemGelid", 'I', "plateGelidEnderium");
 
         ItemStack dustEnderium = ItemHelper.cloneStack(OreDictionary.getOres("dustEnderium", false).get(0), 1);
         FluidStack fluidCryotheum = new FluidStack(FluidRegistry.getFluid("cryotheum"), 1000);
-		FluidStack fluidRedstone = new FluidStack(FluidRegistry.getFluid("redstone"), 200);
+        FluidStack fluidRedstone = new FluidStack(FluidRegistry.getFluid("redstone"), 200);
 
         ThermalExpansionHelper.addSmelterRecipe(4000, dustGelidEnderium, new ItemStack(Blocks.SAND), ingotGelidEnderium);
 

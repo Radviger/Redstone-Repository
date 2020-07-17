@@ -9,8 +9,11 @@ import thundr.redstonerepository.blocks.BlockStorage;
 
 import java.util.ArrayList;
 
-public class RedstoneRepositoryBlocks{
+public class RedstoneRepositoryBlocks {
     public static final RedstoneRepositoryBlocks INSTANCE = new RedstoneRepositoryBlocks();
+    /* REFERENCES */
+    public static BlockStorage BlockStorage;
+    static ArrayList<IInitializer> initList = new ArrayList<>();
 
     private RedstoneRepositoryBlocks() {
 
@@ -36,10 +39,5 @@ public class RedstoneRepositoryBlocks{
             init.initialize();
         }
     }
-
-    static ArrayList<IInitializer> initList = new ArrayList<>();
-
-    /* REFERENCES */
-    public static BlockStorage BlockStorage;
 
 }

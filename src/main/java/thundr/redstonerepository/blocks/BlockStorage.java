@@ -58,7 +58,7 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
     @Override
     protected BlockStateContainer createBlockState() {
 
-        return new BlockStateContainer(this, new IProperty[] { VARIANT });
+        return new BlockStateContainer(this, new IProperty[]{VARIANT});
     }
 
     @Override
@@ -127,7 +127,7 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
 
     /* IModelRegister */
     @Override
-    @SideOnly (Side.CLIENT)
+    @SideOnly(Side.CLIENT)
     public void registerModels() {
         for (int i = 0; i < Type.values().length; i++) {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation("redstonerepository:" + name, "type=" + Type.byMetadata(i).getName()));
@@ -171,6 +171,13 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
         GELID_GEM(1, "blockGelidGem", blockGelidGem);
 
         private static final Type[] METADATA_LOOKUP = new Type[values().length];
+
+        static {
+            for (Type type : values()) {
+                METADATA_LOOKUP[type.getMetadata()] = type;
+            }
+        }
+
         private final int metadata;
         private final String name;
         private final ItemStack stack;
@@ -190,6 +197,7 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
             this.resistance = resistance;
             this.rarity = rarity;
         }
+
         //TODO: not all of these types are needed
         Type(int metadata, String name, ItemStack stack, int light, float hardness, float resistance) {
 
@@ -208,6 +216,14 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
         Type(int metadata, String name, ItemStack stack) {
 
             this(metadata, name, stack, 0, 25.0F, 120.0F, EnumRarity.RARE);
+        }
+
+        public static Type byMetadata(int metadata) {
+
+            if (metadata < 0 || metadata >= METADATA_LOOKUP.length) {
+                metadata = 0;
+            }
+            return METADATA_LOOKUP[metadata];
         }
 
         public int getMetadata() {
@@ -248,20 +264,6 @@ public class BlockStorage extends BlockCore implements IInitializer, IModelRegis
         public EnumRarity getRarity() {
 
             return this.rarity;
-        }
-
-        public static Type byMetadata(int metadata) {
-
-            if (metadata < 0 || metadata >= METADATA_LOOKUP.length) {
-                metadata = 0;
-            }
-            return METADATA_LOOKUP[metadata];
-        }
-
-        static {
-            for (Type type : values()) {
-                METADATA_LOOKUP[type.getMetadata()] = type;
-            }
         }
     }
 

@@ -1,36 +1,31 @@
 package thundr.redstonerepository.items.baubles;
 
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
+import cofh.api.item.IInventoryContainerItem;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.key.KeyBindingItemMultiMode;
-import cofh.core.util.helpers.EnergyHelper;
 import cofh.core.util.helpers.StringHelper;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
-import thundr.redstonerepository.RedstoneRepository;
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
-import thundr.redstonerepository.init.RedstoneRepositoryEquipment;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
-import cofh.api.item.IInventoryContainerItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
+import thundr.redstonerepository.RedstoneRepository;
 import thundr.redstonerepository.api.IHungerStorageItem;
 import thundr.redstonerepository.gui.GuiHandler;
+import thundr.redstonerepository.init.RedstoneRepositoryEquipment;
 import thundr.redstonerepository.items.ItemCoreRF;
 import thundr.redstonerepository.util.HungerHelper;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 import static thundr.redstonerepository.RedstoneRepository.NAME;
 
@@ -55,8 +50,8 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
         this.hungerPointsMax = hungerPointsMax;
         this.maxEnergy = maxEnergy;
         this.maxTransfer = maxTransfer;
-	    this.energyPerUse = energyPerUse;
-	    this.saturationFillMax = saturationFillMax;
+        this.energyPerUse = energyPerUse;
+        this.saturationFillMax = saturationFillMax;
 
     }
 
@@ -75,7 +70,7 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
                         } else if (ePlayer.getFoodStats().getSaturationLevel() < saturationFillMax) {
                             HungerHelper.addSaturation(ePlayer, 1);
                             useHungerPoints(feeder, 1, ePlayer);
-	                        useEnergy(feeder, 1, false);
+                            useEnergy(feeder, 1, false);
                         }
                     }
                 }
@@ -104,8 +99,8 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
         if (!RedstoneRepositoryEquipment.EquipmentInit.enable[1]) {
             tooltip.add(StringHelper.RED + "Baubles not loaded: Recipe disabled.");
         }
-        tooltip.add(StringHelper.localize("info.redstonerepository.hungerPoints") + ": " + StringHelper.ORANGE +  StringHelper.getScaledNumber(getHungerPoints(stack)) + " / " + StringHelper.getScaledNumber(getMaxHungerPoints(stack)));
-        tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.RED +  StringHelper.getScaledNumber(getEnergyStored(stack)) + " / " + StringHelper.getScaledNumber(getMaxEnergyStored(stack)) + " RF");
+        tooltip.add(StringHelper.localize("info.redstonerepository.hungerPoints") + ": " + StringHelper.ORANGE + StringHelper.getScaledNumber(getHungerPoints(stack)) + " / " + StringHelper.getScaledNumber(getMaxHungerPoints(stack)));
+        tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.RED + StringHelper.getScaledNumber(getEnergyStored(stack)) + " / " + StringHelper.getScaledNumber(getMaxEnergyStored(stack)) + " RF");
     }
 
 
@@ -163,8 +158,8 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
         return hungerPointsMax + hungerPointsMax * enchant / 2;
     }
 
-	@Override
-	public EnumRarity getRarity(ItemStack stack) {
-		return EnumRarity.RARE;
-	}
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return EnumRarity.RARE;
+    }
 }

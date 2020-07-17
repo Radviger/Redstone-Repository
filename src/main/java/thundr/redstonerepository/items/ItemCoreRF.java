@@ -28,24 +28,10 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     protected boolean isCreative = false;
     protected boolean showInCreative = true;
 
-	public enum MODE {
-		DISABLED(0),
-		ENABLED(1);
-		private final int value;
-
-		MODE(final int newValue) {
-			value = newValue;
-		}
-
-		public int getValue() {
-			return value;
-		}
-	}
-
     public ItemCoreRF(String modName) {
         super(modName);
 
-	    addPropertyOverride(new ResourceLocation("active"), (stack, world, entity) -> this.isActive(stack) ? 1F : 0F);
+        addPropertyOverride(new ResourceLocation("active"), (stack, world, entity) -> this.isActive(stack) ? 1F : 0F);
     }
 
     public ItemCoreRF setEnergyParams(int maxEnergy, int maxTransfer, int energyPerUse) {
@@ -132,8 +118,8 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
         return 1D - (double) stack.getTagCompound().getInteger(CoreProps.ENERGY) / (double) getMaxEnergyStored(stack);
     }
 
-    public boolean isActive(ItemStack stack){
-	    return getMode(stack) == MODE.ENABLED.getValue() && getEnergyStored(stack) > getEnergyPerUse(stack);
+    public boolean isActive(ItemStack stack) {
+        return getMode(stack) == MODE.ENABLED.getValue() && getEnergyStored(stack) > getEnergyPerUse(stack);
     }
 
     /* HELPERS */
@@ -160,14 +146,14 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
         return extractEnergy(stack, count * energyPerUse * (5 - unbreakingLevel) / 5, simulate);
     }
 
-	protected int useEnergyExact(ItemStack stack, int toUse, boolean simulate) {
+    protected int useEnergyExact(ItemStack stack, int toUse, boolean simulate) {
 
-		if (isCreative) {
-			return 0;
-		}
-		int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack), 0, 4);
-		return extractEnergy(stack, toUse * (5 - unbreakingLevel) / 5, simulate);
-	}
+        if (isCreative) {
+            return 0;
+        }
+        int unbreakingLevel = MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, stack), 0, 4);
+        return extractEnergy(stack, toUse * (5 - unbreakingLevel) / 5, simulate);
+    }
 
     /* IEnergyContainerItem */
     @Override
@@ -203,7 +189,7 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
             container.getTagCompound().setInteger(CoreProps.ENERGY, stored);
         }
         return extract;
-	}
+    }
 
     @Override
     public int getEnergyStored(ItemStack container) {
@@ -233,6 +219,20 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
 
         return new EnergyContainerItemWrapper(stack, this);
+    }
+
+    public enum MODE {
+        DISABLED(0),
+        ENABLED(1);
+        private final int value;
+
+        MODE(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
 }

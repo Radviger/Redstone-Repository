@@ -13,21 +13,21 @@ import java.util.List;
 public class ConfigGui extends GuiConfig {
 
     public ConfigGui(GuiScreen parentScreen) {
-    	super(parentScreen, getConfigElements(parentScreen), RedstoneRepository.ID, false, false, GuiConfig.getAbridgedConfigPath(RedstoneRepository.CONFIG.getConfiguration().toString()));
+        super(parentScreen, getConfigElements(parentScreen), RedstoneRepository.ID, false, false, GuiConfig.getAbridgedConfigPath(RedstoneRepository.CONFIG.getConfiguration().toString()));
     }
 
-	private static List<IConfigElement> getConfigElements(GuiScreen parent) {
+    private static List<IConfigElement> getConfigElements(GuiScreen parent) {
 
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> list = new ArrayList<IConfigElement>();
 
-		for(String section : RedstoneRepository.CONFIG.getCategoryNames()){
-			final ConfigCategory category = RedstoneRepository.CONFIG.getCategory(section);
-			if(!category.isChild()){
-				list.add(new ConfigElement(category));
-			}
+        for (String section : RedstoneRepository.CONFIG.getCategoryNames()) {
+            final ConfigCategory category = RedstoneRepository.CONFIG.getCategory(section);
+            if (!category.isChild()) {
+                list.add(new ConfigElement(category));
+            }
 
-		}
+        }
 
-		return list;
-	}
+        return list;
+    }
 }
