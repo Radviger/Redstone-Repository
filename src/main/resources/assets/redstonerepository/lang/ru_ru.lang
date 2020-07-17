@@ -3,22 +3,22 @@ itemGroup.redstonerepository.creativeTab=Redstone Repository
 
 #Items
 item.redstonerepository.material.dustGelidEnderium.name=Смесь леденящего эндериума
-item.redstonerepository.material.gearGelidEnderium.name=леденящая эндериумная шестерня
-item.redstonerepository.material.gemGelid.name=леденящий кристалл
-item.redstonerepository.material.ingotGelidEnderium.name=леденящий эндериумный слиток
+item.redstonerepository.material.gearGelidEnderium.name=Леденящая эндериумная шестерня
+item.redstonerepository.material.gemGelid.name=Леденящий кристалл
+item.redstonerepository.material.ingotGelidEnderium.name=Леденящий эндериумный слиток
 item.redstonerepository.material.nuggetGelidEnderium.name=Кусочек леденящего эндериума
-item.redstonerepository.material.plateGelidEnderium.name=леденящий эндериумная пластина
-item.redstonerepository.material.plateArmorGelidEnderium.name=леденящее эндериумное покрытие брони
-item.redstonerepository.material.rodGelid.name=леденящий стержень
+item.redstonerepository.material.plateGelidEnderium.name=Леденящий эндериумная пластина
+item.redstonerepository.material.plateArmorGelidEnderium.name=Леденящее эндериумное покрытие брони
+item.redstonerepository.material.rodGelid.name=Леденящий стержень
 item.redstonerepository.material.stringFluxed.name=Флаксовая нить
-tile.redstonerepository.storage.blockGelidEnderium.name=леденящий эндериумный блок
+tile.redstonerepository.storage.blockGelidEnderium.name=Леденящий эндериумный блок
 tile.redstonerepository.storage.blockGelidGem.name=Блок леденящего кристалла
 
 #Equipment
-item.redstonerepository.bauble.capacitor.gelid.name=леденящий амулет с флаксовым конденсатором
+item.redstonerepository.bauble.capacitor.gelid.name=Леденящий амулет с флаксовым конденсатором
 item.redstonerepository.bauble.feeder.name=Эндоскопический гастронаполнитель
 item.redstonerepository.bauble.ring.effect.name=Кольцо алхимического стазиса
-item.redstonerepository.bauble.ring.base.name=леденящее эндериумное кольцо
+item.redstonerepository.bauble.ring.base.name=Леденящее эндериумное кольцо
 item.redstonerepository.bauble.ring.mining.name=Кольцо разрушительной стабилизации
 
 #Equipment Tooltip Titles
