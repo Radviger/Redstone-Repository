@@ -56,9 +56,6 @@ info.redstonerepository.tooltip.forDetails=для подробностей о с
 info.redstonerepository.tooltip.control=Control
 info.redstonerepository.tooltip.hold=Зажмите
 
-info.redstonerepository.tooltip.active=Сейчас %sактивно%s. Нажмите (%s) держа в руке, чтобы деактивировать.
-info.redstonerepository.tooltip.disabled=Сейчас %sнеактивно%s. Нажмите (%s) держа в руке, чтобы активировать.
-
 info.redstonerepository.tooltip.bind=Используйте ПКМ присев, чтобы связать с контейнером в режиме усиления.
 info.redstonerepository.tooltip.notbound=Нет связи с контейнером.
 

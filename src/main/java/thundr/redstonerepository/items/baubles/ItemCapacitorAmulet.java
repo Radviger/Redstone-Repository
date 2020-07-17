@@ -73,9 +73,9 @@ public class ItemCapacitorAmulet extends ItemCoreRF implements IBauble, INBTCopy
         tooltip.add(StringHelper.getInfoText("info.redstonerepository.capacitor.title"));
 
         if (isActive(stack)) {
-            tooltip.add(StringHelper.localizeFormat("info.redstonerepository.tooltip.active", StringHelper.BRIGHT_GREEN, StringHelper.END, StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            tooltip.add(StringHelper.localizeFormat("info.redstonearsenal.tool.chargeOff", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
         } else {
-            tooltip.add(StringHelper.localizeFormat("info.redstonerepository.tooltip.disabled", StringHelper.LIGHT_RED, StringHelper.END, StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            tooltip.add(StringHelper.localizeFormat("info.redstonearsenal.tool.chargeOn", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
         }
 
         if (!RedstoneRepositoryEquipment.EquipmentInit.enable[0]) {
