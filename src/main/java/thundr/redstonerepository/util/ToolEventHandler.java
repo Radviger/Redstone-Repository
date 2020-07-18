@@ -26,6 +26,8 @@ import thundr.redstonerepository.items.baubles.ItemRingMining;
 import thundr.redstonerepository.items.tools.gelidenderium.ItemPickaxeGelidEnderium;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class ToolEventHandler {
@@ -76,8 +78,10 @@ public class ToolEventHandler {
                                 return;
                             }
 
-                            for (int drop = 0; drop < event.getDrops().size(); drop++) {
-                                ItemStack returned = ItemHandlerHelper.insertItemStacked(inventory, event.getDrops().get(drop), false);
+                            List<ItemStack> drops = event.getDrops();
+                            for (Iterator<ItemStack> iterator = drops.iterator(); iterator.hasNext();) {
+                                ItemStack drop = iterator.next();
+                                ItemStack returned = ItemHandlerHelper.insertItemStacked(inventory, drop, false);
 
                                 //drain energy depending on how far away you are from the inventory
                                 int temp = drainEnergyByDistance(event.getPos(), new BlockPos(coordX, coordY, coordZ),
@@ -86,9 +90,7 @@ public class ToolEventHandler {
                                 if (returned.isEmpty()) {
                                     world.playSound(null, event.getPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1F, 0.8F + world.rand.nextFloat() * 0.2F);
                                     world.playSound(null, bound.getPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1F, 0.8F + world.rand.nextFloat() * 0.2F);
-                                    event.setDropChance(0);
-                                } else {
-                                    return;
+                                    iterator.remove();
                                 }
                             }
                         }
