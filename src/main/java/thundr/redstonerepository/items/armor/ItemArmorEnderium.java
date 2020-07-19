@@ -18,8 +18,9 @@ import thundr.redstonerepository.api.IArmorEnderium;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemArmorEnderium extends ItemArmorFlux implements IArmorEnderium {
+import static cofh.core.util.helpers.StringHelper.*;
 
+public class ItemArmorEnderium extends ItemArmorFlux implements IArmorEnderium {
     public ItemArmorEnderium(ArmorMaterial material, EntityEquipmentSlot type) {
         super(material, type);
         setNoRepair();
@@ -34,19 +35,19 @@ public class ItemArmorEnderium extends ItemArmorFlux implements IArmorEnderium {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (stack.getItem().getRegistryName().toString().contains("boot"))
-            tooltip.add(StringHelper.GRAY + "Falling costs energy, but does no damage.");
-        if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
+        if (stack.getItem().getRegistryName().toString().contains("boot")) {
+            tooltip.add(GRAY + localize("info.redstonerepository.tooltip.fallingCost"));
+        }
+        if (StringHelper.displayShiftForDetail && !isShiftKeyDown()) {
             tooltip.add(StringHelper.shiftForDetails());
         }
-        if (!StringHelper.isShiftKeyDown()) {
-            return;
+        if (isShiftKeyDown()) {
+            if (stack.getTagCompound() == null) {
+                EnergyHelper.setDefaultEnergyTag(stack, 0);
+            }
+            tooltip.add(BRIGHT_BLUE + localize("info.redstonerepository.tooltip.fullSet") + ": " + GRAY + localize("info.redstonerepository.tooltip.fireCost"));
+            tooltip.add(localize("info.cofh.charge") + ": " + StringHelper.formatNumber(stack.getTagCompound().getInteger("Energy")) + " / " + StringHelper.formatNumber(getMaxEnergyStored(stack)) + " RF");
         }
-        if (stack.getTagCompound() == null) {
-            EnergyHelper.setDefaultEnergyTag(stack, 0);
-        }
-        tooltip.add(StringHelper.BRIGHT_BLUE + "Full Set: " + StringHelper.GRAY + "Fire Damage ineffective, but drains energy. ");
-        tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.formatNumber(stack.getTagCompound().getInteger("Energy")) + " / " + StringHelper.formatNumber(getMaxEnergyStored(stack)) + " RF");
     }
 
     @Override

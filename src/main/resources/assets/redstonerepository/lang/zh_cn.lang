@@ -63,8 +63,6 @@ tile.redstonerepository.solar.reinforced.name=太阳能板（强化）
 tile.redstonerepository.solar.resonant.name=太阳能板（谐振）
 
 #Tooltips
-info.redstonerepository.tooltip.getenergy=充能：%d / %d RF
-info.redstonerepository.tooltip.peruse=%d RF/次使用
 info.redstonerepository.tooltip.perdamage=%d RF/次伤害
 info.redstonerepository.tooltip.durability=耐久
 info.redstonerepository.tooltip.bound=绑定方块：

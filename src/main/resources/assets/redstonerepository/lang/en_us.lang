@@ -46,8 +46,6 @@ item.redstonerepository.armor.enderium.gelid.leggings.name=Enderium Flux Legging
 item.redstonerepository.armor.enderium.gelid.boots.name=Enderium Flux Boots
 
 #General Tooltips
-info.redstonerepository.tooltip.getenergy=Charge: %d / %d RF
-info.redstonerepository.tooltip.peruse=%d RF Per Use
 info.redstonerepository.tooltip.perdamage=%d RF Per Damage
 info.redstonerepository.tooltip.durability=Durability
 info.redstonerepository.tooltip.bound=Bound Container:
@@ -55,6 +53,10 @@ info.redstonerepository.tooltip.side=Insert Side:
 info.redstonerepository.tooltip.forDetails=for bound details
 info.redstonerepository.tooltip.control=Control
 info.redstonerepository.tooltip.hold=Hold
+info.redstonerepository.tooltip.fallingCost=Prevents falling damage using energy.
+info.redstonerepository.tooltip.fireCost=Prevents fire damage using energy.
+info.redstonerepository.tooltip.fullSet=Full Set
+info.redstonerepository.tooltip.noBaubleRecipe=Baubles not loaded: Recipe disabled.
 
 info.redstonerepository.tooltip.bind=Sneak right click to bind an inventory when empowered.
 info.redstonerepository.tooltip.notbound=Not Bound to an Inventory.

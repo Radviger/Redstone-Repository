@@ -27,6 +27,7 @@ import thundr.redstonerepository.util.HungerHelper;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static cofh.core.util.helpers.StringHelper.*;
 import static thundr.redstonerepository.RedstoneRepository.NAME;
 
 
@@ -80,27 +81,27 @@ public class ItemFeeder extends ItemCoreRF implements IBauble, IInventoryContain
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
-            tooltip.add(StringHelper.shiftForDetails());
-        }
-        if (!StringHelper.isShiftKeyDown()) {
-            tooltip.add(StringHelper.getInfoText("info.redstonerepository.feeder.short"));
-            return;
-        }
-        tooltip.add(StringHelper.getInfoText("info.redstonerepository.feeder.title"));
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag advanced) {
+        if (isShiftKeyDown()) {
+            tooltip.add(getInfoText("info.redstonerepository.feeder.title"));
 
-        if (isActive(stack)) {
-            tooltip.add(StringHelper.localizeFormat("info.redstonearsenal.tool.chargeOff", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            if (isActive(stack)) {
+                tooltip.add(localizeFormat("info.redstonearsenal.tool.chargeOff", getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            } else {
+                tooltip.add(localizeFormat("info.redstonearsenal.tool.chargeOn", getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            }
+
+            if (!RedstoneRepositoryEquipment.EquipmentInit.enable[1]) {
+                tooltip.add(RED + localize("info.redstonerepository.tooltip.noBaubleRecipe"));
+            }
+            tooltip.add(localize("info.redstonerepository.hungerPoints") + ": " + ORANGE + getScaledNumber(getHungerPoints(stack)) + " / " + getScaledNumber(getMaxHungerPoints(stack)));
+            tooltip.add(localize("info.cofh.charge") + ": " + RED + getScaledNumber(getEnergyStored(stack)) + " / " + getScaledNumber(getMaxEnergyStored(stack)) + " RF");
         } else {
-            tooltip.add(StringHelper.localizeFormat("info.redstonearsenal.tool.chargeOn", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            if (StringHelper.displayShiftForDetail) {
+                tooltip.add(StringHelper.shiftForDetails());
+            }
+            tooltip.add(getInfoText("info.redstonerepository.feeder.short"));
         }
-
-        if (!RedstoneRepositoryEquipment.EquipmentInit.enable[1]) {
-            tooltip.add(StringHelper.RED + "Baubles not loaded: Recipe disabled.");
-        }
-        tooltip.add(StringHelper.localize("info.redstonerepository.hungerPoints") + ": " + StringHelper.ORANGE + StringHelper.getScaledNumber(getHungerPoints(stack)) + " / " + StringHelper.getScaledNumber(getMaxHungerPoints(stack)));
-        tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.RED + StringHelper.getScaledNumber(getEnergyStored(stack)) + " / " + StringHelper.getScaledNumber(getMaxEnergyStored(stack)) + " RF");
     }
 
 

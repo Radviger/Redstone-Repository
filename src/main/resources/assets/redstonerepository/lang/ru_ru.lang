@@ -46,8 +46,6 @@ item.redstonerepository.armor.enderium.gelid.leggings.name=Флаксовые л
 item.redstonerepository.armor.enderium.gelid.boots.name=Флаксовые леденящие ботинки
 
 #General Tooltips
-info.redstonerepository.tooltip.getenergy=Заряд: %d / %d RF
-info.redstonerepository.tooltip.peruse=%d RF за использование
 info.redstonerepository.tooltip.perdamage=%d RF за единицу урона
 info.redstonerepository.tooltip.durability=Прочность
 info.redstonerepository.tooltip.bound=Связанный контейнер:
@@ -55,6 +53,10 @@ info.redstonerepository.tooltip.side=Сторона вмещения:
 info.redstonerepository.tooltip.forDetails=для подробностей о связи
 info.redstonerepository.tooltip.control=Control
 info.redstonerepository.tooltip.hold=Зажмите
+info.redstonerepository.tooltip.fallingCost=Предотвращает урон от падения за энергию.
+info.redstonerepository.tooltip.fireCost=Предотвращает урон от огня за энергию.
+info.redstonerepository.tooltip.fullSet=Полный комплект
+info.redstonerepository.tooltip.noBaubleRecipe=Baubles not loaded: Recipe disabled.
 
 info.redstonerepository.tooltip.bind=Используйте ПКМ присев, чтобы связать с контейнером в режиме усиления.
 info.redstonerepository.tooltip.notbound=Нет связи с контейнером.

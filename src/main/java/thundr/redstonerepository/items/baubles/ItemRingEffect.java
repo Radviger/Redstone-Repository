@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static cofh.core.util.helpers.StringHelper.*;
+
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
 public class ItemRingEffect extends ItemCoreRF implements IBauble {
     public final static int POTION_DURATION_TICKS = 290;
@@ -56,29 +58,27 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag advanced) {
-        if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
-            tooltip.add(StringHelper.shiftForDetails());
-        }
-        if (!StringHelper.isShiftKeyDown()) {
-            return;
-        }
-        tooltip.add(StringHelper.getInfoText("info.redstonerepository.ring.effect.title"));
+        if (isShiftKeyDown()) {
+            tooltip.add(getInfoText("info.redstonerepository.ring.effect.title"));
 
-        if (isActive(stack)) {
-            tooltip.add(StringHelper.localizeFormat("info.redstonearsenal.tool.chargeOff", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
-        } else {
-            tooltip.add(StringHelper.localizeFormat("info.redstonearsenal.tool.chargeOn", StringHelper.getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
-        }
+            if (isActive(stack)) {
+                tooltip.add(localizeFormat("info.redstonearsenal.tool.chargeOff", getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            } else {
+                tooltip.add(localizeFormat("info.redstonearsenal.tool.chargeOn", getKeyName(KeyBindingItemMultiMode.INSTANCE.getKey())));
+            }
 
-        if (ItemNBTUtils.getInteger(stack, ON_COOLDOWN) > 0) {
-            tooltip.add(StringHelper.RED + StringHelper.localizeFormat("info.redstonerepository.ring.effect.disabled", StringHelper.formatNumber((ItemNBTUtils.getInteger(stack, ON_COOLDOWN) / 20) + 1)));
-        }
+            if (ItemNBTUtils.getInteger(stack, ON_COOLDOWN) > 0) {
+                tooltip.add(RED + localizeFormat("info.redstonerepository.ring.effect.disabled", formatNumber((ItemNBTUtils.getInteger(stack, ON_COOLDOWN) / 20) + 1)));
+            }
 
-        if (!RedstoneRepositoryEquipment.EquipmentInit.enable[2]) {
-            tooltip.add(StringHelper.RED + "Baubles not loaded: Recipe disabled.");
+            if (!RedstoneRepositoryEquipment.EquipmentInit.enable[2]) {
+                tooltip.add(RED + localize("info.redstonerepository.tooltip.noBaubleRecipe"));
+            }
+            tooltip.add(localize("info.cofh.charge") + ": " + getScaledNumber(getEnergyStored(stack)) + " / " + getScaledNumber(getMaxEnergyStored(stack)) + " RF");
+            tooltip.add(localize("info.cofh.send") + "/" + localize("info.cofh.receive") + ": " + formatNumber(maxTransfer) + "/" + formatNumber(maxTransfer) + " RF/t");
+        } else if (StringHelper.displayShiftForDetail) {
+            tooltip.add(shiftForDetails());
         }
-        tooltip.add(StringHelper.localize("info.cofh.charge") + ": " + StringHelper.getScaledNumber(getEnergyStored(stack)) + " / " + StringHelper.getScaledNumber(getMaxEnergyStored(stack)) + " RF");
-        tooltip.add(StringHelper.localize("info.cofh.send") + "/" + StringHelper.localize("info.cofh.receive") + ": " + StringHelper.formatNumber(maxTransfer) + "/" + StringHelper.formatNumber(maxTransfer) + " RF/t");
     }
 
     @Override
