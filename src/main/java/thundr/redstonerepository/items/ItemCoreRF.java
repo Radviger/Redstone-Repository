@@ -30,12 +30,10 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
 
     public ItemCoreRF(String modName) {
         super(modName);
-
         addPropertyOverride(new ResourceLocation("active"), (stack, world, entity) -> this.isActive(stack) ? 1F : 0F);
     }
 
     public ItemCoreRF setEnergyParams(int maxEnergy, int maxTransfer, int energyPerUse) {
-
         this.maxEnergy = maxEnergy;
         this.maxTransfer = maxTransfer;
         this.energyPerUse = energyPerUse;
@@ -44,7 +42,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     }
 
     public ItemCoreRF setCreative(boolean creative) {
-
         isCreative = creative;
         return this;
     }
@@ -52,7 +49,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     /* STANDARD METHODS */
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-
         if (isInCreativeTab(tab) && showInCreative) {
             if (!isCreative) {
                 items.add(EnergyHelper.setDefaultEnergyTag(new ItemStack(this, 1, 0), 0));
@@ -63,55 +59,46 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
 
     @Override
     public void setDamage(ItemStack stack, int damage) {
-
         super.setDamage(stack, 0);
     }
 
     @Override
     public boolean isDamageable() {
-
         return false;
     }
 
     @Override
     public boolean isEnchantable(ItemStack stack) {
-
         return true;
     }
 
     @Override
     public boolean isFull3D() {
-
         return true;
     }
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-
         return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged) && (slotChanged || getEnergyStored(oldStack) > 0 != getEnergyStored(newStack) > 0);
     }
 
     @Override
     public boolean showDurabilityBar(ItemStack stack) {
-
         return getEnergyStored(stack) > 0;
     }
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-
         return 0;
     }
 
     @Override
     public int getRGBDurabilityForDisplay(ItemStack stack) {
-
         return CoreProps.RGB_DURABILITY_FLUX;
     }
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-
         if (stack.getTagCompound() == null) {
             EnergyHelper.setDefaultEnergyTag(stack, 0);
         }
@@ -125,7 +112,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
 
     /* HELPERS */
     protected int getEnergyPerUse(ItemStack stack) {
-
         if (isCreative) {
             return 0;
         }
@@ -134,12 +120,10 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     }
 
     protected int getTransfer(ItemStack container) {
-
         return maxTransfer;
     }
 
     public int useEnergy(ItemStack stack, int count, boolean simulate) {
-
         if (isCreative) {
             return 0;
         }
@@ -148,7 +132,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     }
 
     protected int useEnergyExact(ItemStack stack, int toUse, boolean simulate) {
-
         if (isCreative) {
             return 0;
         }
@@ -159,7 +142,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     /* IEnergyContainerItem */
     @Override
     public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
-
         if (container.getTagCompound() == null) {
             EnergyHelper.setDefaultEnergyTag(container, 0);
         }
@@ -175,7 +157,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
 
     @Override
     public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
-
         if (container.getTagCompound() == null) {
             EnergyHelper.setDefaultEnergyTag(container, 0);
         }
@@ -194,7 +175,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
 
     @Override
     public int getEnergyStored(ItemStack container) {
-
         if (container.getTagCompound() == null) {
             EnergyHelper.setDefaultEnergyTag(container, 0);
         }
@@ -203,7 +183,6 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
 
     @Override
     public int getMaxEnergyStored(ItemStack container) {
-
         int enchant = EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, container);
         return maxEnergy + maxEnergy * enchant / 2;
     }
@@ -211,14 +190,12 @@ public class ItemCoreRF extends ItemCore implements IMultiModeItem, IEnergyConta
     /* IEnchantableItem */
     @Override
     public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
-
         return enchantment == CoreEnchantments.holding;
     }
 
     /* CAPABILITIES */
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-
         return new EnergyContainerItemWrapper(stack, this);
     }
 

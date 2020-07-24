@@ -40,12 +40,11 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
     public static final String AMPLIFIER = "amp";
     public static final String ON_COOLDOWN = "cd2";
     public int removalTimer, cooldownTimer;
-    public ConcurrentHashMap<UUID, ArrayList<PotionEffect>> globalMap;
+    //CME generator start
+    public ConcurrentHashMap<UUID, ArrayList<PotionEffect>> globalMap = new ConcurrentHashMap<>();
 
     public ItemRingEffect(int cooldownThreshold, int cooldownDuration, int powerMultiplier, int effectRingTransfer, int effectRingCapacity) {
         super(RedstoneRepository.NAME);
-        //CME generator start
-        globalMap = new ConcurrentHashMap<>();
 
         removalTimer = cooldownThreshold;
         cooldownTimer = cooldownDuration;
@@ -182,28 +181,27 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         }
 
         if (isActive(ring) && (getEnergyStored(ring) >= ItemNBTUtils.getInteger(ring, POWER_TICK))) {
-            for (PotionEffect p : globalMap.get(entityPlayer.getUniqueID())) {
-                player.addPotionEffect(p);
-            }
-            //Use energy to sustain potions
+            if (cacheEffects != null) {
+                for (PotionEffect p : cacheEffects) {
+                    player.addPotionEffect(p);
+                }
+                //Use energy to sustain potions
 
-            useEnergyExact(ring, ItemNBTUtils.getInteger(ring, POWER_TICK), false);
-            ItemNBTUtils.setInteger(ring, UNTIL_SAFE_TO_REMOVE, ItemNBTUtils.getInteger(ring, UNTIL_SAFE_TO_REMOVE) - 1);
+                useEnergyExact(ring, ItemNBTUtils.getInteger(ring, POWER_TICK), false);
+                ItemNBTUtils.setInteger(ring, UNTIL_SAFE_TO_REMOVE, ItemNBTUtils.getInteger(ring, UNTIL_SAFE_TO_REMOVE) - 1);
+            }
         } else {
-            RedstoneRepository.LOG.info("tf349994");
             entityPlayer.clearActivePotions();
             globalMap.remove(player.getUniqueID());
         }
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity player, int itemSlot, boolean isSelected) {
-        if (!(player instanceof EntityPlayer) || player.world.isRemote || CoreUtils.isFakePlayer(player)) {
-            return;
-        }
-
-        if (ItemNBTUtils.getInteger(stack, ON_COOLDOWN) > 0) {
-            ItemNBTUtils.setInteger(stack, ON_COOLDOWN, ItemNBTUtils.getInteger(stack, ON_COOLDOWN) - 1);
+    public void onUpdate(ItemStack stack, World world, Entity player, int itemSlot, boolean isSelected) {
+        if (player instanceof EntityPlayer && !player.world.isRemote && !CoreUtils.isFakePlayer(player)) {
+            if (ItemNBTUtils.getInteger(stack, ON_COOLDOWN) > 0) {
+                ItemNBTUtils.setInteger(stack, ON_COOLDOWN, ItemNBTUtils.getInteger(stack, ON_COOLDOWN) - 1);
+            }
         }
     }
 
