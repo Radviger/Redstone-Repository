@@ -92,7 +92,6 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         if (!(player instanceof EntityPlayer) || player.world.isRemote || CoreUtils.isFakePlayer(player)) {
             return;
         }
-        RedstoneRepository.LOG.info("goob");
 
         EntityPlayer entityPlayer = (EntityPlayer) player;
 
@@ -109,7 +108,6 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
                 effects.add(p);
                 //add to power usage per tick per potion and level (int)Math.pow(2, diff + 6.0)
                 powerUsage += (int) Math.pow(getEnergyPerUse(ring), p.getAmplifier());
-                RedstoneRepository.LOG.info(powerUsage + "");
             }
 
 
@@ -135,10 +133,8 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
         EntityPlayer entityPlayer = (EntityPlayer) player;
 
         if (isActive(ring) && (getEnergyStored(ring) >= getEnergyPerUse(ring))) {
-            RedstoneRepository.LOG.info("boo333g");
             entityPlayer.clearActivePotions();
             if (ItemNBTUtils.getInteger(ring, UNTIL_SAFE_TO_REMOVE) > 0 && ItemNBTUtils.getInteger(ring, ON_COOLDOWN) == 0) {
-                RedstoneRepository.LOG.info("boo5g");
                 ItemNBTUtils.setInteger(ring, ON_COOLDOWN, cooldownTimer);
             }
             ItemNBTUtils.setInteger(ring, UNTIL_SAFE_TO_REMOVE, 0);
@@ -166,7 +162,6 @@ public class ItemRingEffect extends ItemCoreRF implements IBauble {
 
         if (ItemNBTUtils.getInteger(ring, ON_COOLDOWN) > 0) {
             ItemNBTUtils.setInteger(ring, ON_COOLDOWN, ItemNBTUtils.getInteger(ring, ON_COOLDOWN) - 1);
-//			RedstoneRepository.LOG.info("test234");
             return;
         }
 
