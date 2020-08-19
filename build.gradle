@@ -110,6 +110,9 @@ processResources {
 
 jar {
     classifier = 'universal'
+	manifest {
+		attributes 'FMLAT': 'redstonerepository_at.cfg'
+	}
 }
 
 task deobfJar(type: Jar) {
