@@ -12,11 +12,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import thundr.redstonerepository.api.IToolEnderium;
 
 import java.util.ArrayList;
 
 
-public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux {
+public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux implements IToolEnderium {
 
     public int radius = 10;
 
@@ -28,6 +29,11 @@ public class ItemBattleWrenchGelidEnderium extends ItemBattleWrenchFlux {
         energyPerUse = GelidEnderiumEnergy.energyPerUse;
         energyPerUseCharged = GelidEnderiumEnergy.energyPerUseCharged;
         maxTransfer = GelidEnderiumEnergy.maxTransfer;
+    }
+
+    @Override
+    public boolean isEmpowered(ItemStack stack) {
+        return super.isEmpowered(stack);
     }
 
     @Override

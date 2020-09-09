@@ -63,10 +63,6 @@ info.redstonerepository.tooltip.notbound=Not Bound to an Inventory.
 
 info.redstonerepository.tooltip.smash=Smashes mobs in a large radius when empowered.
 
-info.redstonerepository.tooltip.fertilize=Right click to rapidly grow crops. Works better when empowered.
-
-info.redstonerepository.tooltip.lightning=Right click a block to call down the power of the sky when empowered.
-
 info.redstonerepository.tooltip.hungerPoints=%d / %d Hunger Points
 
 #Chat Messages

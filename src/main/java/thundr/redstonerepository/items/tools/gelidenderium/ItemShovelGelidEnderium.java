@@ -3,25 +3,32 @@ package thundr.redstonerepository.items.tools.gelidenderium;
 import cofh.core.init.CoreProps;
 import cofh.core.util.helpers.StringHelper;
 import cofh.redstonearsenal.item.tool.ItemShovelFlux;
-import net.minecraft.block.Block;
-import net.minecraft.block.IGrowable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import thundr.redstonerepository.api.IToolEnderium;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 
-public class ItemShovelGelidEnderium extends ItemShovelFlux {
+public class ItemShovelGelidEnderium extends ItemShovelFlux implements IToolEnderium {
 
     public ItemShovelGelidEnderium(ToolMaterial toolMaterial) {
         super(toolMaterial);
@@ -32,90 +39,91 @@ public class ItemShovelGelidEnderium extends ItemShovelFlux {
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ItemStack stack = player.getHeldItem(hand);
-
-        if (!player.isSneaking() && stack.getItem() instanceof ItemShovelGelidEnderium) {
-            if (!player.canPlayerEdit(pos, facing, stack)) {
-                return EnumActionResult.FAIL;
-            }
-            if (!isEmpowered(stack) && getEnergyStored(stack) > energyPerUseCharged) {
-                growCrop(worldIn, pos, player, stack, facing, hand, energyPerUseCharged);
-            } else if (isEmpowered(stack) && getEnergyStored(stack) > energyPerUseCharged * 9 || player.capabilities.isCreativeMode) {
-                for (int x = -1; x < 2; x++) {
-                    for (int z = -1; z < 2; z++) {
-                        BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
-                        growCrop(worldIn, newPos, player, stack, facing, hand, energyPerUseCharged * 9);
-                    }
-                }
-            } else {
-                return EnumActionResult.FAIL;
-            }
-        } else {
-            super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-        }
-        return EnumActionResult.SUCCESS;
+    public boolean isEmpowered(ItemStack stack) {
+        return super.isEmpowered(stack);
     }
-
-    private void growCrop(World world, BlockPos pos, EntityPlayer player, ItemStack stack, EnumFacing facing, EnumHand hand, int energy) {
-
-        Block block = player.world.getBlockState(pos).getBlock();
-
-        if (!world.isRemote)
-            if (block instanceof IGrowable || block instanceof IPlantable || block == Blocks.MYCELIUM) {
-                //adds an extra 50 percent chance for a second call.
-                if (world.rand.nextBoolean()) {
-                    world.scheduleBlockUpdate(pos, block, 0, 100);
-                }
-                world.scheduleBlockUpdate(pos, block, 0, 100);
-                if (!player.capabilities.isCreativeMode) {
-                    useEnergy(stack, false);
-                }
-                //particle spawn (green bonemeal)
-                if (world.rand.nextFloat() >= .90F) {
-                    world.playEvent(2005, pos, 0);
-                }
-            }
-    }
-
-// TODO: maybe we will revisit this later
-//	@Override
-//	public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-//
-//        int x = pos.getX();
-//        int y = pos.getY();
-//        int z = pos.getZ();
-//
-////        if (!(player instanceof EntityPlayer)) {
-////            return false;
-////        }
-//		World world = player.world;
-//		IBlockState state = world.getBlockState(pos);
-//        if (state.getBlockHardness(world, pos) == 0.0D) {
-//            return true;
-//        }
-//
-//        if (effectiveBlocks.contains(state.getBlock()) && isEmpowered(stack)) {
-//            for (int i = x - 2; i <= x + 2; i++) {
-//                for (int k = z - 2; k <= z + 2; k++) {
-//                    for (int j = y - 2; j <= y + 2; j++) {
-//                        if (world.getBlockState(pos) == state) {
-//                            harvestBlock(world, pos, player);
-//	                        if (!player.capabilities.isCreativeMode) {
-//		                        extractEnergy(stack, energyPerUseCharged, false);
-//	                        }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return true;
-//    }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.fertilize"));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.getHeldItem(hand);
+
+        if (player.isSneaking()) {
+            if (!world.isRemote) {
+                if (!stack.hasTagCompound()) {
+                    stack.setTagCompound(new NBTTagCompound());
+                }
+
+                TileEntity tile = world.getTileEntity(pos);
+
+                NBTTagCompound compound = stack.getTagCompound();
+
+                ITextComponent msg;
+
+                if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing)) {
+                    compound.setBoolean("Bound", true);
+                    compound.setInteger("CoordX", pos.getX());
+                    compound.setInteger("CoordY", pos.getY());
+                    compound.setInteger("CoordZ", pos.getZ());
+                    compound.setInteger("DimID", world.provider.getDimension());
+                    compound.setInteger("Side", facing.getIndex());
+                    msg = new TextComponentTranslation("info.redstonerepository.tooltip.linked");
+                    msg.getStyle().setColor(TextFormatting.GREEN);
+                } else {
+                    compound.setBoolean("Bound", false);
+                    compound.removeTag("CoordX");
+                    compound.removeTag("CoordY");
+                    compound.removeTag("CoordZ");
+                    compound.removeTag("DimID");
+                    compound.removeTag("Side");
+                    msg = new TextComponentTranslation("info.redstonerepository.tooltip.unlinked");
+                    msg.getStyle().setColor(TextFormatting.RED);
+                }
+                world.playSound(null, pos, SoundEvents.ENTITY_ENDEREYE_DEATH, SoundCategory.BLOCKS, 1F, 1F);
+                player.sendStatusMessage(msg, true);
+            }
+            return EnumActionResult.SUCCESS;
+        } else {
+            return EnumActionResult.FAIL;
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bind"));
+        super.addInformation(stack, world, tooltip, flagIn);
+        if (stack.hasTagCompound()) {
+            //coordX, coordY, coordZ, dimID, side
+            int[] values = new int[5];
+            boolean isBound = false;
+            NBTTagCompound tags = stack.getTagCompound();
+
+            if (tags.hasKey("CoordX"))
+                values[0] = tags.getInteger("CoordX");
+            if (tags.hasKey("CoordY"))
+                values[1] = tags.getInteger("CoordY");
+            if (tags.hasKey("CoordZ"))
+                values[2] = tags.getInteger("CoordZ");
+            if (tags.hasKey("DimID"))
+                values[3] = tags.getInteger("DimID");
+            if (tags.hasKey("Side"))
+                values[4] = tags.getInteger("Side");
+            if (tags.hasKey("Bound"))
+                isBound = tags.getBoolean("Bound");
+
+            String sideString = EnumFacing.getFront(values[4]).getName().toLowerCase();
+
+            if (StringHelper.isControlKeyDown()) {
+                if (isBound) {
+                    tooltip.add(StringHelper.localize(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bound") + StringHelper.LIGHT_GRAY + " " + values[0] + ", " + values[1] + ", " + values[2] + ". DimID: " + values[3]));
+                    tooltip.add(StringHelper.localize(StringHelper.BRIGHT_BLUE + StringHelper.localize("info.redstonerepository.tooltip.side") + StringHelper.LIGHT_GRAY + " " + Character.toUpperCase(sideString.charAt(0)) + sideString.substring(1)));
+                } else {
+                    tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.notbound"));
+                }
+            } else {
+                tooltip.add(StringHelper.localize("info.redstonerepository.tooltip.hold") + " " + StringHelper.YELLOW + StringHelper.ITALIC + StringHelper.localize("info.redstonerepository.tooltip.control") + " " + StringHelper.LIGHT_GRAY + StringHelper.localize("info.redstonerepository.tooltip.forDetails"));
+            }
+        }
     }
 
     @Override

@@ -26,12 +26,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
+import thundr.redstonerepository.api.IToolEnderium;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
+public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux implements IToolEnderium {
 
     public ItemPickaxeGelidEnderium(ToolMaterial toolMaterial) {
         super(toolMaterial);
@@ -39,6 +40,11 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
         energyPerUse = GelidEnderiumEnergy.energyPerUse;
         energyPerUseCharged = GelidEnderiumEnergy.energyPerUseCharged;
         maxTransfer = GelidEnderiumEnergy.maxTransfer;
+    }
+
+    @Override
+    public boolean isEmpowered(ItemStack stack) {
+        return super.isEmpowered(stack);
     }
 
     @Override
@@ -87,7 +93,6 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
 
     @Override
     @SideOnly(Side.CLIENT)
-    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bind"));
         super.addInformation(stack, world, tooltip, flagIn);
@@ -280,9 +285,5 @@ public class ItemPickaxeGelidEnderium extends ItemPickaxeFlux {
     @Override
     public int getRGBDurabilityForDisplay(ItemStack stack) {
         return CoreProps.RGB_DURABILITY_ENDER;
-    }
-
-    public int getEnergyPerUseCharged() {
-        return this.energyPerUseCharged;
     }
 }

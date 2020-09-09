@@ -63,10 +63,6 @@ info.redstonerepository.tooltip.notbound=Нет связи с контейнер
 
 info.redstonerepository.tooltip.smash=Радиус поражения увеличивается в режиме усиления.
 
-info.redstonerepository.tooltip.fertilize=Используйте ПКМ, чтобы мгновенно выращивать растения. Работает лучше в режиме усиления.
-
-info.redstonerepository.tooltip.lightning=Используйте ПКМ, чтобы призвать силу небес в режиме усиления.
-
 info.redstonerepository.tooltip.hungerPoints=%d / %d Единиц пищи
 
 #Chat Messages

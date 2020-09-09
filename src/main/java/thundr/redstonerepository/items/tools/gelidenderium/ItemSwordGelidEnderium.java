@@ -13,13 +13,14 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import thundr.redstonerepository.api.IToolEnderium;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ItemSwordGelidEnderium extends ItemSwordFlux {
+public class ItemSwordGelidEnderium extends ItemSwordFlux implements IToolEnderium {
     //eventually set a config for this
     public int radius = 8;
 
@@ -31,6 +32,11 @@ public class ItemSwordGelidEnderium extends ItemSwordFlux {
         maxTransfer = GelidEnderiumEnergy.maxTransfer;
         damage = 15;
         damageCharged = 8;
+    }
+
+    @Override
+    public boolean isEmpowered(ItemStack stack) {
+        return super.isEmpowered(stack);
     }
 
     @Override

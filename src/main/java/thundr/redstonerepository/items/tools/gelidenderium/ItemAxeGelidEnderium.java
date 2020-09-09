@@ -7,33 +7,43 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.server.SPacketBlockChange;
-import net.minecraft.util.*;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import thundr.redstonerepository.api.IToolEnderium;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 
-public class ItemAxeGelidEnderium extends ItemAxeFlux {
-
-    public static final int LIGHTNING_ENERGY = 6400;
-    public static final int EMPOWERED_LIGHTNING_ENERGY = 48000;
+public class ItemAxeGelidEnderium extends ItemAxeFlux implements IToolEnderium {
     public static int blocksPerTick;
 
     public ItemAxeGelidEnderium(Item.ToolMaterial toolMaterial, int axeBlocksCutPerTick) {
@@ -45,47 +55,93 @@ public class ItemAxeGelidEnderium extends ItemAxeFlux {
         damage = 10;
         blocksPerTick = axeBlocksCutPerTick;
     }
-    //TODO: enable lumberaxe-like functionality WIP!!!!!
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-//        if (ConfigHandler.enableAxeWeatherClear) {
-        Random rand = new Random();
-        ItemStack held = player.getHeldItem(hand);
-        if (!world.isRemote && hand == EnumHand.MAIN_HAND) {
-            if (isEmpowered(held) && (world.isRaining() || world.isThundering())) {
-                WorldInfo info = world.getWorldInfo();
-                int i = 300 + rand.nextInt(600) * 20;
-                info.setRaining(false);
-                info.setThundering(false);
-                info.setRainTime(i);
-                world.spawnEntity(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, true));
-                if (!player.capabilities.isCreativeMode) {
-                    useEnergy(held, false);
-                }
-            }
-        }
-        player.swingArm(EnumHand.MAIN_HAND);
-//        }
-        return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
+    public boolean isEmpowered(ItemStack stack) {
+        return super.isEmpowered(stack);
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        ItemStack held = player.getHeldItem(hand);
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        if (getEnergyStored(held) > LIGHTNING_ENERGY) {
-            if (isEmpowered(held) && getEnergyStored(held) >= EMPOWERED_LIGHTNING_ENERGY) {
-                world.spawnEntity(new EntityLightningBolt(world, x, y, z, false));
-                if (!player.capabilities.isCreativeMode) {
-                    extractEnergy(held, LIGHTNING_ENERGY, false);
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.getHeldItem(hand);
+
+        if (player.isSneaking()) {
+            if (!world.isRemote) {
+                if (!stack.hasTagCompound()) {
+                    stack.setTagCompound(new NBTTagCompound());
                 }
-                return EnumActionResult.SUCCESS;
+
+                TileEntity tile = world.getTileEntity(pos);
+
+                NBTTagCompound compound = stack.getTagCompound();
+
+                ITextComponent msg;
+
+                if (tile != null && tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing)) {
+                    compound.setBoolean("Bound", true);
+                    compound.setInteger("CoordX", pos.getX());
+                    compound.setInteger("CoordY", pos.getY());
+                    compound.setInteger("CoordZ", pos.getZ());
+                    compound.setInteger("DimID", world.provider.getDimension());
+                    compound.setInteger("Side", facing.getIndex());
+                    msg = new TextComponentTranslation("info.redstonerepository.tooltip.linked");
+                    msg.getStyle().setColor(TextFormatting.GREEN);
+                } else {
+                    compound.setBoolean("Bound", false);
+                    compound.removeTag("CoordX");
+                    compound.removeTag("CoordY");
+                    compound.removeTag("CoordZ");
+                    compound.removeTag("DimID");
+                    compound.removeTag("Side");
+                    msg = new TextComponentTranslation("info.redstonerepository.tooltip.unlinked");
+                    msg.getStyle().setColor(TextFormatting.RED);
+                }
+                world.playSound(null, pos, SoundEvents.ENTITY_ENDEREYE_DEATH, SoundCategory.BLOCKS, 1F, 1F);
+                player.sendStatusMessage(msg, true);
+            }
+            return EnumActionResult.SUCCESS;
+        } else {
+            return EnumActionResult.FAIL;
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bind"));
+        super.addInformation(stack, world, tooltip, flagIn);
+        if (stack.hasTagCompound()) {
+            //coordX, coordY, coordZ, dimID, side
+            int[] values = new int[5];
+            boolean isBound = false;
+            NBTTagCompound tags = stack.getTagCompound();
+
+            if (tags.hasKey("CoordX"))
+                values[0] = tags.getInteger("CoordX");
+            if (tags.hasKey("CoordY"))
+                values[1] = tags.getInteger("CoordY");
+            if (tags.hasKey("CoordZ"))
+                values[2] = tags.getInteger("CoordZ");
+            if (tags.hasKey("DimID"))
+                values[3] = tags.getInteger("DimID");
+            if (tags.hasKey("Side"))
+                values[4] = tags.getInteger("Side");
+            if (tags.hasKey("Bound"))
+                isBound = tags.getBoolean("Bound");
+
+            String sideString = EnumFacing.getFront(values[4]).getName().toLowerCase();
+
+            if (StringHelper.isControlKeyDown()) {
+                if (isBound) {
+                    tooltip.add(StringHelper.localize(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.bound") + StringHelper.LIGHT_GRAY + " " + values[0] + ", " + values[1] + ", " + values[2] + ". DimID: " + values[3]));
+                    tooltip.add(StringHelper.localize(StringHelper.BRIGHT_BLUE + StringHelper.localize("info.redstonerepository.tooltip.side") + StringHelper.LIGHT_GRAY + " " + Character.toUpperCase(sideString.charAt(0)) + sideString.substring(1)));
+                } else {
+                    tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.notbound"));
+                }
+            } else {
+                tooltip.add(StringHelper.localize("info.redstonerepository.tooltip.hold") + " " + StringHelper.YELLOW + StringHelper.ITALIC + StringHelper.localize("info.redstonerepository.tooltip.control") + " " + StringHelper.LIGHT_GRAY + StringHelper.localize("info.redstonerepository.tooltip.forDetails"));
             }
         }
-        return EnumActionResult.FAIL;
     }
 
     @Override
@@ -105,13 +161,6 @@ public class ItemAxeGelidEnderium extends ItemAxeFlux {
             }
         }
         return false;
-    }
-
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(StringHelper.BRIGHT_GREEN + StringHelper.localize("info.redstonerepository.tooltip.lightning"));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Override

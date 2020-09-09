@@ -1,8 +1,10 @@
 package thundr.redstonerepository.util;
 
 import cofh.core.util.helpers.BaublesHelper;
+import cofh.redstonearsenal.item.tool.ItemToolFlux;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -21,10 +23,15 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import thundr.redstonerepository.RedstoneRepository;
+import thundr.redstonerepository.api.IToolEnderium;
 import thundr.redstonerepository.items.baubles.ItemRingEffect;
 import thundr.redstonerepository.items.baubles.ItemRingMining;
+import thundr.redstonerepository.items.tools.gelidenderium.ItemAxeGelidEnderium;
 import thundr.redstonerepository.items.tools.gelidenderium.ItemPickaxeGelidEnderium;
+import thundr.redstonerepository.items.tools.gelidenderium.ItemShovelGelidEnderium;
+import thundr.redstonerepository.items.tools.gelidenderium.ItemSickleGelidEnderium;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,15 +49,20 @@ public class ToolEventHandler {
             "Set the factor that scales the power drained from the Gelid Enderium Pickaxe when teleporting items between dimensions. This is a flat value per item.");
     }
 
+    private boolean isGelidTool(Item item) {
+        return item instanceof ItemPickaxeGelidEnderium || item instanceof ItemAxeGelidEnderium
+            || item instanceof ItemSickleGelidEnderium || item instanceof ItemShovelGelidEnderium;
+    }
+
     @SubscribeEvent
     public void onHarvestDrops(BlockEvent.HarvestDropsEvent event) {
         World world = event.getWorld();
         if (!world.isRemote) {
             if (event.getHarvester() != null && !event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).isEmpty() &&
-                event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemPickaxeGelidEnderium) {
+                isGelidTool(event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).getItem())) {
 
                 ItemStack stack = event.getHarvester().getHeldItem(EnumHand.MAIN_HAND);
-                ItemPickaxeGelidEnderium pickaxe = (ItemPickaxeGelidEnderium) event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).getItem();
+                ItemToolFlux tool = (ItemToolFlux) event.getHarvester().getHeldItem(EnumHand.MAIN_HAND).getItem();
 
                 if (isEmpowered(stack)) {
                     if (stack.getTagCompound() == null) {
@@ -86,7 +98,7 @@ public class ToolEventHandler {
                                 //drain energy depending on how far away you are from the inventory
                                 int temp = drainEnergyByDistance(event.getPos(), new BlockPos(coordX, coordY, coordZ),
                                     !(dimID == event.getHarvester().dimension));
-                                pickaxe.extractEnergy(stack, temp, false);
+                                tool.extractEnergy(stack, temp, false);
                                 if (returned.isEmpty()) {
                                     world.playSound(null, event.getPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1F, 0.8F + world.rand.nextFloat() * 0.2F);
                                     world.playSound(null, bound.getPos(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1F, 0.8F + world.rand.nextFloat() * 0.2F);
@@ -110,11 +122,11 @@ public class ToolEventHandler {
         }
     }
 
-    //cause cofh methods are protected :))))))))))))))))))))))))))
+    private static Method IS_EMPOWERED;
+
     public boolean isEmpowered(ItemStack stack) {
-        //this casts to a pick every time, but that doesn't matter. check here if bug
-        ItemPickaxeGelidEnderium pick = (ItemPickaxeGelidEnderium) stack.getItem();
-        return pick.getMode(stack) == 1 && pick.getEnergyStored(stack) >= pick.getEnergyPerUseCharged();
+        IToolEnderium tool = (IToolEnderium) stack.getItem();
+        return tool.isEmpowered(stack);
     }
 
     @SubscribeEvent
